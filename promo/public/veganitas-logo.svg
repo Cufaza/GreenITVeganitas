@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300" width="2000" height="600">
+  <!-- insignia -->
+  <g transform="translate(20,20)">
+    <circle cx="130" cy="130" r="124" fill="#FFF4D9" stroke="#2E7D32" stroke-width="10"/>
+    <circle cx="58" cy="56" r="14" fill="#F39C12"/>
+    <!-- brote -->
+    <path d="M130 196 C130 160 130 140 130 112" stroke="#2E7D32" stroke-width="10" stroke-linecap="round" fill="none"/>
+    <path d="M130 140 C88 140 66 114 62 84 C100 84 128 106 130 140 Z" fill="#66BB6A"/>
+    <path d="M130 118 C164 118 190 96 196 62 C160 60 132 82 130 118 Z" fill="#2E7D32"/>
+    <!-- tierra -->
+    <path d="M84 204 Q130 174 176 204 Q130 222 84 204 Z" fill="#8D6E63"/>
+  </g>
+  <text x="320" y="170" font-family="'Liberation Sans', Arial, Helvetica, sans-serif" font-size="128" font-weight="700" fill="#2E7D32" letter-spacing="-3">Veganitas</text>
+  <rect x="326" y="200" width="214" height="54" rx="27" fill="#F39C12"/>
+  <text x="433" y="239" text-anchor="middle" font-family="'Liberation Sans', Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#FFFFFF" letter-spacing="1">EQUIPO 1</text>
+  <text x="562" y="238" font-family="'Liberation Sans', Arial, Helvetica, sans-serif" font-size="30" fill="#5F6B7A">Ing. Informática · 2026</text>
+</svg>

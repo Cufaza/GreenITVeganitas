@@ -6,3 +6,6 @@ dist
 .vercel
 .DS_Store
 *.log
+
+# promo video render output
+promo/out/

@@ -1,0 +1,20 @@
+{
+  "name": "greenit-calc-promo",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Remotion promo video for GreenIT Calc",
+  "scripts": {
+    "studio": "remotion studio src/index.js",
+    "still": "remotion still src/index.js GreenITPromo",
+    "render": "remotion render src/index.js GreenITPromo out/greenit-promo.mp4",
+    "music": "node scripts/make-music.mjs"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.540",
+    "@remotion/google-fonts": "4.0.540",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remotion": "4.0.540"
+  }
+}
