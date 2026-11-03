@@ -7,11 +7,13 @@ import { DEFAULT_SETTINGS } from './constants.js';
 export const DEMO_EMAIL = 'demo@greenitcalc.com';
 export const DEMO_PASSWORD = 'demo1234';
 
+export const DEMO_EMPRESA = 'UNLaM, DIIT (caso simulado)';
+
 export function demoData() {
   return {
     settings: {
       ...DEFAULT_SETTINGS,
-      empresa: 'UNLaM, DIIT (caso simulado)',
+      empresa: DEMO_EMPRESA,
       // El consumo IT de este departamento supera los 2000 kWh/mes, por eso se usa el tramo G3.
       // Simplificación: una universidad real estaría en una tarifa de gran demanda (T2/T3) y la app
       // solo modela Edenor T1-G. No se verificó qué distribuidora abastece el predio de San Justo.

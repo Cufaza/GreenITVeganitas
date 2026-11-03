@@ -15,7 +15,10 @@ const save = (userId, data) => {
 export async function loadData(user) {
   try {
     const raw = localStorage.getItem(key(user.id));
-    if (raw) return JSON.parse(raw);
+    const stored = raw && JSON.parse(raw);
+    // ponytail: one-off migration of the old demo case (Estudio Contable Delta); drop it once nobody has it cached.
+    const staleDemo = user.demo && stored?.settings?.empresa?.startsWith('Estudio Contable Delta');
+    if (stored && !staleDemo) return stored;
   } catch {
     /* se regenera abajo */
   }

@@ -1,6 +1,6 @@
 // Autenticación SIMULADA para la demo (localStorage). No es segura: sirve solo para mostrar el flujo.
 // Para producción, reemplazar por Supabase Auth. Ver SUPABASE.md.
-import { DEMO_EMAIL, DEMO_PASSWORD } from '../data/demo.js';
+import { DEMO_EMAIL, DEMO_EMPRESA, DEMO_PASSWORD } from '../data/demo.js';
 
 const USERS_KEY = 'greenit.users';
 const SESSION_KEY = 'greenit.session';
@@ -35,14 +35,19 @@ const newId = () => (globalThis.crypto?.randomUUID ? crypto.randomUUID() : `u-${
 
 async function ensureDemoUser() {
   const users = read(USERS_KEY, []);
-  if (!users.some((u) => u.email === DEMO_EMAIL)) {
+  const demo = users.find((u) => u.email === DEMO_EMAIL);
+  if (!demo) {
     users.push({
       id: 'demo-user',
       email: DEMO_EMAIL,
-      empresa: 'UNLaM, DIIT (caso simulado)',
+      empresa: DEMO_EMPRESA,
       demo: true,
       hash: await hash(DEMO_EMAIL, DEMO_PASSWORD),
     });
+    write(USERS_KEY, users);
+  } else if (demo.empresa !== DEMO_EMPRESA) {
+    // Browsers that used the previous demo case keep its name: sync it to the current one.
+    demo.empresa = DEMO_EMPRESA;
     write(USERS_KEY, users);
   }
 }
