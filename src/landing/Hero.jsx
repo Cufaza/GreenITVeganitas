@@ -9,7 +9,7 @@ const MARKERS = [
 
 // phi/theta that center the globe on lat/lon (cobe convention); the globe is half hidden, so we aim south of Argentina
 const START_PHI = Math.PI - ((-64 * Math.PI) / 180 - Math.PI / 2);
-const THETA = -1.1;
+const THETA = -1.25;
 
 function Globe() {
   const wrap = useRef(null);
@@ -23,8 +23,10 @@ function Globe() {
     let phi = START_PHI;
     let visible = true;
     let timer = 0;
+    let raf = 0;
 
     const build = () => {
+      cancelAnimationFrame(raf);
       globe?.destroy();
       const w = el.offsetWidth;
       if (!w) return;
@@ -43,11 +45,15 @@ function Globe() {
         markerColor: [0.48, 0.83, 0.54],
         glowColor: [0.05, 0.16, 0.1],
         markers: MARKERS,
-        onRender: (state) => {
-          if (!reduce && visible) phi += 0.0022;
-          state.phi = phi;
-        },
       });
+      // cobe 2.x has no onRender: we drive the frames ourselves. The map texture loads after the first
+      // draw, so redrawing every frame is also what makes the land dots show up.
+      const tick = () => {
+        if (!reduce && visible) phi += 0.0022;
+        globe.update({ phi });
+        raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
       requestAnimationFrame(() => el.classList.add('is-ready'));
     };
 
@@ -61,6 +67,7 @@ function Globe() {
     const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; });
     if (wrap.current) io.observe(wrap.current);
     return () => {
+      cancelAnimationFrame(raf);
       clearTimeout(timer);
       window.removeEventListener('resize', onResize);
       io.disconnect();
@@ -69,8 +76,10 @@ function Globe() {
   }, []);
 
   return (
-    <div className="l-globe" ref={wrap} aria-hidden="true">
-      <canvas ref={canvas} />
+    <div className="l-globe-wrap" aria-hidden="true">
+      <div className="l-globe" ref={wrap}>
+        <canvas ref={canvas} />
+      </div>
     </div>
   );
 }

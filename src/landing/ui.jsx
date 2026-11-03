@@ -47,7 +47,7 @@ export function PrimaryCta({ cta, className, children = 'Probar la demo' }) {
     return <Link to="/panel" className={cx('l-btn l-btn-primary', className)}>Ir al panel <ArrowRight aria-hidden="true" /></Link>;
   }
   return (
-    <button type="button" className={cx('l-btn l-btn-primary', className)} onClick={cta.startDemo} disabled={cta.busy}>
+    <button type="button" className={cx('l-btn l-btn-primary', className)} onClick={cta.startDemo} disabled={cta.busy || cta.loading}>
       {cta.busy && <Loader2 className="l-spin" aria-hidden="true" />}
       {cta.busy ? 'Abriendo la demo…' : children}
     </button>

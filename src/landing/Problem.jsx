@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { motion, useInView, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react';
 import { CATEGORIAS, PUE } from '../data/constants.js';
 import { fmt, fmtARS, fmtPct } from '../lib/format.js';
-import { DEMO } from './demo.js';
+import { DEMO, IEA } from './demo.js';
 import { Reveal } from './ui.jsx';
 
 const EASE = [0.16, 1, 0.3, 1];
@@ -15,6 +15,7 @@ const FIGURES = [
     unit: '%',
     text: 'de la electricidad del mundo la usan los centros de datos: entre 240 y 340 TWh por año.',
     source: 'Fuente: Agencia Internacional de la Energía (IEA)',
+    href: IEA.url,
   },
   {
     num: '≈44',
@@ -112,7 +113,7 @@ export default function Problem() {
               <figure className="l-figure" style={{ height: '100%' }}>
                 <div className="l-figure-num">{f.num}<small>{f.unit}</small></div>
                 <p>{f.text}</p>
-                <cite>{f.source}</cite>
+                <cite>{f.href ? <a href={f.href} target="_blank" rel="noreferrer" style={{ textDecoration: 'underline', textUnderlineOffset: 3 }}>{f.source}</a> : f.source}</cite>
               </figure>
             </Reveal>
           ))}

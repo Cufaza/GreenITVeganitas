@@ -68,7 +68,7 @@ export default function Nav({ cta, onMenuChange }) {
     <>
     <header className={cx('l-nav', scrolled && 'is-scrolled')}>
       <div className="l-container l-nav-in">
-        <a href="#top" className="l-logo" aria-label="GreenIT Calc, ir al inicio"><Logo light height={34} /></a>
+        <a href="#top" className="l-logo" aria-label="GreenIT Calc, ir al inicio"><Logo light height={44} /></a>
         <nav className="l-links" aria-label="Secciones">
           {NAV_LINKS.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
         </nav>
@@ -77,7 +77,7 @@ export default function Nav({ cta, onMenuChange }) {
           {cta.user ? (
             <Link to="/panel" className="l-pill">Ir al panel</Link>
           ) : (
-            <button type="button" className="l-pill" onClick={cta.startDemo} disabled={cta.busy}>
+            <button type="button" className="l-pill" onClick={cta.startDemo} disabled={cta.busy || cta.loading}>
               {cta.busy && <Loader2 className="l-spin" aria-hidden="true" />} Probar la demo
             </button>
           )}

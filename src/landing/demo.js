@@ -18,6 +18,12 @@ export const DEMO = {
   ahorro: plan.ahorro,
 };
 
+/** IEA reference behind the data-center figures (landing only). */
+export const IEA = {
+  titulo: 'IEA, Data centres and data transmission networks',
+  url: 'https://www.iea.org/energy-system/buildings/data-centres-and-data-transmission-networks',
+};
+
 /** Short labels for the three recommendations (the full titles live in calc.js). */
 export const MEDIDA_CORTA = {
   'apagar-fuera-horario': 'Apagar PCs fuera de horario',

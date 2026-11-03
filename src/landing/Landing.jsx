@@ -21,13 +21,14 @@ const FONTS = 'https://fonts.googleapis.com/css2?family=Geist:wght@300..800&fami
 const BG = '#070b10';
 
 export default function Landing() {
-  const { user, loginDemo } = useAuth();
+  const { user, loading, loginDemo } = useAuth();
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const lenisRef = useRef(null);
 
   const startDemo = useCallback(async () => {
+    if (loading) return; // a stored session may still be restoring
     setBusy(true);
     setError('');
     try {
@@ -37,8 +38,8 @@ export default function Landing() {
       setError(e?.message || 'No pudimos abrir la demo. Probá de nuevo.');
       setBusy(false);
     }
-  }, [loginDemo, navigate]);
-  const cta = { user, busy, error, startDemo };
+  }, [loading, loginDemo, navigate]);
+  const cta = { user, loading, busy, error, startDemo };
 
   // Landing-only page setup: fonts, dark canvas behind overscroll, anchor offset. All undone on unmount.
   useEffect(() => {
@@ -81,13 +82,23 @@ export default function Landing() {
   // Anchor links: with Lenis active, scroll through it (scroll-padding-top covers the native case)
   const onClick = (e) => {
     const a = e.target.closest?.('a[href^="#"]');
-    const lenis = lenisRef.current;
-    if (!a || !lenis || a.getAttribute('href').length < 2) return;
-    const target = document.querySelector(a.getAttribute('href'));
+    const href = a?.getAttribute('href');
+    if (!href || href.length < 2) return;
+    const target = document.querySelector(href);
     if (!target) return;
     e.preventDefault();
-    window.history.pushState(null, '', a.getAttribute('href'));
-    lenis.scrollTo(target, { offset: -84 });
+    window.history.replaceState(null, '', href);
+    const lenis = lenisRef.current;
+    if (lenis) {
+      // The mobile menu stops Lenis while open; its links close the menu and scroll in the same click
+      lenis.start();
+      lenis.scrollTo(target, { offset: -84, force: true });
+    } else {
+      target.scrollIntoView();
+    }
+    // Move focus to the target so keyboard users (skip link, nav) continue from there
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
   };
 
   return (

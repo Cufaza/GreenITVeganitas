@@ -1,6 +1,7 @@
 import { Check, ExternalLink } from 'lucide-react';
 import { FACTOR_EMISION, FUENTES, PUE, TARIFA_EDENOR_T1G } from '../data/constants.js';
 import { fmt } from '../lib/format.js';
+import { IEA } from './demo.js';
 import { Reveal, SectionHead } from './ui.jsx';
 
 const urlDe = (id) => FUENTES.find((f) => f.id === id)?.url;
@@ -33,7 +34,8 @@ const ROWS = [
   {
     name: 'Uso de energía de los centros de datos',
     value: '1 a 1,3% de la electricidad mundial (240 a 340 TWh)',
-    src: 'Agencia Internacional de la Energía (IEA)',
+    src: `Agencia Internacional de la Energía (IEA), ${IEA.titulo.replace('IEA, ', '')}`,
+    url: IEA.url,
   },
 ];
 
