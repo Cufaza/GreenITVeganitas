@@ -113,7 +113,7 @@ export default function Layout() {
         </div>
       </main>
 
-      {ready && <WattiWidget />}
+      {ready && <WattiWidget hideFab={menuOpen} />}
     </div>
   );
 }

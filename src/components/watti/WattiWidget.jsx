@@ -26,8 +26,8 @@ function Avatar({ className, state = 'idle' }) {
 function Respuesta({ r, onNavigate }) {
   return (
     <div className="space-y-2">
-      {r.parrafos.map((p) => <p key={p}>{p}</p>)}
-      {r.lista && <ul className="list-disc space-y-1 pl-4">{r.lista.map((l) => <li key={l}>{l}</li>)}</ul>}
+      {r.parrafos.map((p, i) => <p key={i}>{p}</p>)}
+      {r.lista && <ul className="list-disc space-y-1 pl-4">{r.lista.map((l, i) => <li key={i}>{l}</li>)}</ul>}
       {r.accion && (
         <Link to={r.accion.to} onClick={onNavigate} className="inline-flex items-center gap-1 pt-1 text-xs font-semibold text-brand hover:underline">
           {r.accion.label} <ArrowRight className="h-3.5 w-3.5" />
@@ -43,7 +43,7 @@ const Chip = ({ children, ...props }) => (
   </Button>
 );
 
-export default function WattiWidget() {
+export default function WattiWidget({ hideFab = false }) {
   const { items, settings } = useData();
   const [open, setOpen] = useState(false);
   const panel = useModalAnimation(open);
@@ -79,7 +79,13 @@ export default function WattiWidget() {
   }, [open]);
   useEffect(() => {
     if (!open) return undefined;
-    const onKey = (e) => e.key === 'Escape' && setOpen(false);
+    // Escape closes Watti only if focus is inside it, or no other dialog / open listbox is on screen
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return;
+      const inside = document.getElementById('watti-panel')?.contains(e.target);
+      const other = document.querySelector('[role="dialog"]:not(#watti-panel), [role="alertdialog"], [role="listbox"]');
+      if (inside || !other) setOpen(false);
+    };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [open]);
@@ -101,7 +107,8 @@ export default function WattiWidget() {
     setTyping(true);
     later(() => {
       const r = qid ? responder(qid, { items, settings }) : null;
-      push(r ? { role: 'bot', kind: 'respuesta', qid, r } : { role: 'bot', kind: 'fuera', texto: FUERA_DE_ALCANCE });
+      // The "load your inventory first" answer does not count as asked, so its chip stays available
+      push(r ? { role: 'bot', kind: 'respuesta', qid: r.datos?.sinEquipos ? undefined : qid, r } : { role: 'bot', kind: 'fuera', texto: FUERA_DE_ALCANCE });
       setTyping(false);
       setHappy(true);
       later(() => setHappy(false), 1100);
@@ -120,7 +127,7 @@ export default function WattiWidget() {
 
   return (
     <div className="print:hidden">
-      {!open && (
+      {!open && !hideFab && (
         <button
           ref={fabRef}
           type="button"

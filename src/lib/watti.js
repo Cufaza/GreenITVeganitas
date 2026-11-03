@@ -8,7 +8,7 @@
 //     modelo puede invocar para obtener los números del usuario sin inventarlos.
 //   - `datos` expone los números crudos de cada respuesta para pasárselos al modelo o para tests.
 
-import { RECOMENDACIONES, calcTotales, categoriaDe, escenarioCombinado, evaluarRecomendaciones } from './calc.js';
+import { RECOMENDACIONES, calcTotales, categoriaDe, escenarioCombinado, evaluarRecomendaciones, num } from './calc.js';
 import { FACTOR_EMISION, PUE, TARIFA_EDENOR_T1G } from '../data/constants.js';
 import { fmt, fmtARS, fmtKg, fmtKwh, fmtPct } from './format.js';
 
@@ -18,9 +18,9 @@ export const FUERA_DE_ALCANCE =
 export const AVISO = 'Asistente de demostración: respuestas predefinidas calculadas con tus datos. Sin IA real.';
 
 export const PREGUNTAS = [
-  { id: 'consumo-total', texto: '¿Cuánto consumo por mes en total?', claves: ['consumo', 'total', 'por mes', 'mensual', 'kwh'] },
+  { id: 'consumo-total', texto: '¿Cuánto consumo por mes en total?', claves: ['consumo', 'total', 'por mes', 'mensual', 'kwh', 'costo', 'gasto', 'cuanto pago por mes', 'cuanto gasto por mes', 'cuanto cuesta por mes'] },
   { id: 'equipos-top', texto: '¿Qué equipos consumen más?', claves: ['equipos', 'consumen mas', 'mas consume', 'quien consume', 'ranking'] },
-  { id: 'costo-anual', texto: '¿Cuánto pago por año de energía de mi infraestructura IT?', claves: ['por ano', 'al ano', 'anual', 'cuanto pago', 'pago'] },
+  { id: 'costo-anual', texto: '¿Cuánto pago por año de energía de mi infraestructura IT?', claves: ['por ano', 'al ano', 'anual', 'costo anual', 'gasto anual', 'gasto al ano', 'cuanto pago por ano', 'cuanto gasto por ano'] },
   { id: 'pcs-fuera-horario', texto: '¿Cuánto gasto por dejar las PCs prendidas fuera de horario?', claves: ['pcs', 'pc', 'prendidas', 'fuera de horario', 'fuera del horario', 'noche', 'fin de semana', 'monitores'] },
   { id: 'servidor-ocioso', texto: '¿Conviene dar de baja el servidor casi sin uso?', claves: ['servidor', 'dar de baja', 'baja', 'ocioso', 'sin uso', 'conviene'] },
   { id: 'plan-completo', texto: '¿Qué ahorro logro aplicando todo el plan?', claves: ['todo el plan', 'plan', 'ahorro', 'ahorrar', 'aplicando', 'combinado'] },
@@ -66,7 +66,11 @@ const ACCION = {
   calculos: { to: '/calculos', label: 'Ver los Cálculos' },
 };
 
+const esFactorPorDefecto = (fe) => Math.abs(Number(fe) - FACTOR_EMISION.valor) < 1e-9;
+const hayEquiposEnSala = (items) => items.some((i) => i.ubicacion === 'sala_servidores' && num(i.cantidad) > 0);
 const pctDe = (parte, total) => (total > 0 ? (parte / total) * 100 : 0);
+
+const SIN_DATOS_OK = ['huella-calculo', 'datos-fuentes'];
 
 const RESPUESTAS = {
   'consumo-total': ({ t }) => {
@@ -135,11 +139,11 @@ const RESPUESTAS = {
       };
     }
     const a = r.ahorro;
-    const nombres = items.filter((i) => categoriaDe(i) === 'servidor' && Number(i.cargaPct ?? 100) < 10 && Number(i.cantidad) > 0).map((i) => i.nombre);
+    const nombres = items.filter((i) => categoriaDe(i) === 'servidor' && num(i.cargaPct, 100) < 10 && num(i.cantidad) > 0).map((i) => i.nombre);
     return {
       parrafos: [
         base,
-        `Dar de baja o consolidar ${nombres.join(', ')} ahorraría ${fmtKwh(a.kWhMes)}, ${fmtARS(a.costoMes)} y ${fmtKg(a.co2Mes)} por mes (${fmtPct(a.pct)} del total).`,
+        `Dar de baja o consolidar ${nombres.length ? nombres.join(', ') : 'los servidores con poca carga'} ahorraría ${fmtKwh(a.kWhMes)}, ${fmtARS(a.costoMes)} y ${fmtKg(a.co2Mes)} por mes (${fmtPct(a.pct)} del total).`,
         `Supuesto: ${r.supuesto}`,
       ],
       accion: ACCION.plan,
@@ -192,20 +196,27 @@ const RESPUESTAS = {
     };
   },
 
-  refrigeracion: ({ t, settings, recs }) => {
-    const pue = Number(settings.pue);
+  refrigeracion: ({ items, t, settings, recs }) => {
+    const pue = Math.max(1, num(settings.pue, 1)); // same clamp as calc.js
     const r = recs['mejorar-refrigeracion'];
-    if (!(t.kWhRefrig > 0)) {
+    if (!hayEquiposEnSala(items)) {
       return {
         parrafos: ['No tenés equipos cargados en la sala de servidores, así que hoy no se suma refrigeración.'],
         accion: ACCION.calculos,
-        datos: { pue, kWhRefrig: 0, aplicaMejora: false },
+        datos: { pue, kWhRefrig: 0, aplicaMejora: false, haySala: false },
+      };
+    }
+    if (!(t.kWhRefrig > 0)) {
+      return {
+        parrafos: [`Con un PUE de ${fmt(pue, 2)} el modelo no suma refrigeración ni pérdidas a los equipos de la sala de servidores. Si tu sala usa aire acondicionado, cargá su PUE real en Inventario para ver cuánto pesa.`],
+        accion: ACCION.calculos,
+        datos: { pue, kWhRefrig: 0, aplicaMejora: false, haySala: true },
       };
     }
     const parrafos = [
       `Con un PUE de ${fmt(pue, 2)}, por cada kWh que usan los equipos de la sala se suman ${fmt(pue - 1, 2)} kWh de refrigeración y pérdidas. Son ${fmtKwh(t.kWhRefrig)} por mes: ${fmtPct(pctDe(t.kWhRefrig, t.kWhMes))} de tu consumo total.`,
     ];
-    const datos = { pue, kWhRefrig: t.kWhRefrig, pctTotal: pctDe(t.kWhRefrig, t.kWhMes), aplicaMejora: r.esAplicable };
+    const datos = { pue, kWhRefrig: t.kWhRefrig, pctTotal: pctDe(t.kWhRefrig, t.kWhMes), aplicaMejora: r.esAplicable, haySala: true };
     if (r.esAplicable) {
       parrafos.push(
         `Con una mejor gestión de la sala (PUE ${fmt(PUE.mejorado, 1)}, escenario de LBNL 2016) la refrigeración bajaría a ${fmtKwh(r.despues.kWhRefrig)} y ahorrarías ${fmtKwh(r.ahorro.kWhMes)} y ${fmtARS(r.ahorro.costoMes)} por mes. Es un valor de referencia, no una garantía.`,
@@ -217,19 +228,24 @@ const RESPUESTAS = {
     return { parrafos, accion: ACCION.calculos, datos };
   },
 
-  'huella-calculo': ({ t, settings }) => {
-    const fe = Number(settings.factorEmision);
+  'huella-calculo': ({ items, t, settings }) => {
+    const fe = num(settings.factorEmision, FACTOR_EMISION.valor);
     const anio = settings.factorAnio ?? FACTOR_EMISION.anio;
+    const porDefecto = esFactorPorDefecto(fe);
+    // Without equipment there are no user numbers: use a generic 100 kWh example
+    const sinDatos = !items.length;
+    const kWh = sinDatos ? 100 : t.kWhMes;
+    const co2 = kWh * fe;
     return {
       parrafos: ['La huella sale de multiplicar la energía que consumís por cuánto CO₂ emite generar cada kWh en la red eléctrica argentina:'],
       lista: [
         'kg CO₂ = kWh × factor de emisión',
-        `Tu consumo: ${fmtKwh(t.kWhMes)} por mes`,
-        `Factor de emisión: ${fmt(fe, 3)} kg CO₂/kWh${fe === FACTOR_EMISION.valor ? ` (${anio}, SNIGEI-AR 2025)` : ' (valor cargado por vos)'}`,
-        `Cuenta: ${fmt(t.kWhMes, 1)} × ${fmt(fe, 3)} = ${fmtKg(t.co2Mes, 1)} por mes`,
+        `Factor de emisión: ${fmt(fe, 3)} kg CO₂/kWh${porDefecto ? ` (${anio}, SNIGEI-AR 2025)` : ' (valor cargado por vos)'}`,
+        sinDatos ? 'Ejemplo genérico, sin tus datos: 100 kWh' : `Tu consumo: ${fmtKwh(t.kWhMes)} por mes`,
+        `Cuenta: ${fmt(kWh, 1)} × ${fmt(fe, 3)} = ${fmtKg(co2, 1)}${sinDatos ? '' : ' por mes'}`,
       ],
-      accion: ACCION.calculos,
-      datos: { kWhMes: t.kWhMes, factorEmision: fe, co2Mes: t.co2Mes },
+      accion: sinDatos ? ACCION.inventario : ACCION.calculos,
+      datos: { kWhMes: kWh, factorEmision: fe, co2Mes: co2, ejemplo: sinDatos },
     };
   },
 
@@ -239,12 +255,12 @@ const RESPUESTAS = {
     ],
     lista: [
       `Tarifa: Edenor T1-G, ${TARIFA_EDENOR_T1G.vigencia}. Hoy usás ${fmt(settings.tarifaARS, 3)} $/kWh.`,
-      `Factor de emisión: ${fmt(settings.factorEmision, 3)} kg CO₂/kWh (SNIGEI-AR 2025, serie hasta ${FACTOR_EMISION.anio}).`,
-      `PUE y consumo de servidores: LBNL 2016. Tu PUE actual es ${fmt(settings.pue, 2)}.`,
+      `Factor de emisión: ${fmt(settings.factorEmision, 3)} kg CO₂/kWh${esFactorPorDefecto(settings.factorEmision) ? ` (SNIGEI-AR 2025, serie hasta ${FACTOR_EMISION.anio})` : ' (valor que cargaste vos; el de referencia es SNIGEI-AR 2025)'}.`,
+      `PUE y consumo de servidores: LBNL 2016. Tu PUE actual es ${fmt(Math.max(1, num(settings.pue, 1)), 2)}.`,
       'Potencias de PCs, monitores y red: valores de referencia de estudios publicados y hojas de datos.',
     ],
     accion: ACCION.calculos,
-    datos: { tarifaARS: Number(settings.tarifaARS), factorEmision: Number(settings.factorEmision), pue: Number(settings.pue) },
+    datos: { tarifaARS: Number(settings.tarifaARS), factorEmision: Number(settings.factorEmision), pue: Math.max(1, num(settings.pue, 1)) },
   }),
 };
 
@@ -255,7 +271,8 @@ const RESPUESTAS = {
 export function responder(id, { items = [], settings = {} } = {}) {
   const fn = RESPUESTAS[id];
   if (!fn) return null;
-  if (!items.length) return SIN_EQUIPOS;
+  // These two answers do not need the user's equipment
+  if (!items.length && !SIN_DATOS_OK.includes(id)) return SIN_EQUIPOS;
   const calculo = calcTotales(items, settings);
   const recs = Object.fromEntries(evaluarRecomendaciones(items, settings).map((r) => [r.id, r]));
   const plan = escenarioCombinado(items, settings, RECOMENDACIONES.map((r) => r.id));

@@ -70,4 +70,23 @@ checkIgual('Watti sin equipos → acción', w('consumo-total', []).accion.to, '/
 checkIgual('Watti interpreta cada pregunta sugerida', PREGUNTAS.every((q) => interpretar(q.texto) === q.id), true);
 checkIgual('Watti texto sin sentido → null', interpretar('hola qué tal'), null);
 
+// Watti: refrigeración según haya equipos en la sala (no según kWhRefrig), preguntas sin datos y frases libres
+const refrig1 = responder('refrigeracion', { items, settings: { ...settings, pue: 1 } });
+checkIgual('Watti PUE=1 con servidores: hay sala', refrig1.datos.haySala, true);
+checkIgual('Watti PUE=1 no dice que falten equipos', refrig1.parrafos[0].includes('No tenés equipos'), false);
+const sinSala = responder('refrigeracion', { items: items.filter((i) => i.ubicacion !== 'sala_servidores'), settings });
+checkIgual('Watti sin equipos en sala: haySala', sinSala.datos.haySala, false);
+checkIgual('Watti huella sin inventario: ejemplo genérico', responder('huella-calculo', { items: [], settings }).datos.ejemplo, true);
+checkIgual('Watti datos y fuentes sin inventario: responde', responder('datos-fuentes', { items: [], settings }).datos.sinEquipos, undefined);
+checkIgual('Watti factor propio: no cita SNIGEI como valor usado', responder('datos-fuentes', { items, settings: { ...settings, factorEmision: 0.3 } }).lista[1].includes('valor que cargaste'), true);
+const frases = {
+  'cuánto pago por mes': 'consumo-total',
+  'cuánto gasto por mes': 'consumo-total',
+  'cuál es el costo mensual': 'consumo-total',
+  'cuánto pago por año': 'costo-anual',
+  'cuánto gasto al año': 'costo-anual',
+  'costo anual': 'costo-anual',
+};
+for (const [f, id] of Object.entries(frases)) checkIgual(`Watti frase "${f}"`, interpretar(f), id);
+
 
