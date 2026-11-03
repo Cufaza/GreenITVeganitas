@@ -1,5 +1,4 @@
 import { ChevronDown } from 'lucide-react';
-import { Reveal, SectionHead } from './ui.jsx';
 
 const FAQ = [
   ['¿Qué mide GreenIT Calc?', 'El consumo eléctrico (kWh), el costo y la huella de carbono (kg de CO₂) de tu infraestructura IT: PCs, monitores, notebooks, servidores y red. En la sala de servidores suma además lo que se va en refrigeración.'],
@@ -13,17 +12,22 @@ const FAQ = [
 
 export default function Faq() {
   return (
-    <section className="l-section cv" id="preguntas" aria-labelledby="faq-title">
-      <div className="l-container">
-        <SectionHead id="faq-title" center eyebrow="Preguntas frecuentes" title={<>Lo que nos suelen <em>preguntar.</em></>} />
-        <Reveal className="l-faq">
-          {FAQ.map(([q, a]) => (
-            <details key={q}>
-              <summary>{q}<ChevronDown aria-hidden="true" /></summary>
-              <div><p>{a}</p></div>
-            </details>
-          ))}
-        </Reveal>
+    <section className="block tests-section faq-section" id="preguntas" aria-labelledby="faq-title">
+      <div className="tests-head">
+        <span className="sec-eyebrow reveal">Preguntas frecuentes</span>
+        <h2 className="tests-title reveal d1" id="faq-title">
+          Lo que nos suelen
+          <br />
+          <em>preguntar.</em>
+        </h2>
+      </div>
+      <div className="faq-list reveal d2">
+        {FAQ.map(([q, a]) => (
+          <details key={q} className="faq-item">
+            <summary>{q}<ChevronDown aria-hidden="true" /></summary>
+            <div className="faq-answer"><p>{a}</p></div>
+          </details>
+        ))}
       </div>
     </section>
   );

@@ -2,7 +2,6 @@ import { Check, ExternalLink } from 'lucide-react';
 import { FACTOR_EMISION, FUENTES, PUE, TARIFA_EDENOR_T1G } from '../data/constants.js';
 import { fmt } from '../lib/format.js';
 import { IEA } from './demo.js';
-import { Reveal, SectionHead } from './ui.jsx';
 
 const urlDe = (id) => FUENTES.find((f) => f.id === id)?.url;
 
@@ -39,57 +38,82 @@ const ROWS = [
   },
 ];
 
-// Same formulas as the in-app "Cálculos" page
-const FORMULAS = `horas apagado   = 168 − horas uso − horas reposo
-kWh semana (IT) = cantidad × (P_uso × h_uso + P_reposo × h_reposo + P_apagado × h_apagado) ÷ 1000
-kWh mes (IT)    = kWh semana × 52 ÷ 12
-refrigeración   = kWh mes (IT) × (PUE − 1)      solo en sala de servidores
-kWh mes total   = kWh mes (IT) + refrigeración
-costo mes       = kWh mes total × tarifa ($/kWh)
-CO₂ mes (kg)    = kWh mes total × factor de emisión
-Servidores      : P_uso = P_reposo + carga% × (P_máx − P_reposo)`;
+// Same formulas as the in-app "Cálculos" page: [text, kind] with kind c = comment, k = result, undefined = plain
+const FORMULAS = [
+  ['horas apagado   = 168 − horas uso − horas reposo'],
+  ['kWh semana (IT) = cantidad × (P_uso × h_uso'],
+  ['                  + P_reposo × h_reposo'],
+  ['                  + P_apagado × h_apagado) ÷ 1000'],
+  ['kWh mes (IT)    = kWh semana × 52 ÷ 12'],
+  ['refrigeración   = kWh mes (IT) × (PUE − 1)', 'solo en sala'],
+  ['kWh mes total   = kWh mes (IT) + refrigeración'],
+  ['costo mes       = kWh mes total × tarifa ($/kWh)'],
+  ['CO₂ mes (kg)    = kWh mes total × factor de emisión'],
+  ['Servidores      : P_uso = P_reposo'],
+  ['                  + carga% × (P_máx − P_reposo)'],
+];
+
+const CHECKS = [
+  'Fórmulas visibles, con la cuenta paso a paso de cada equipo.',
+  'Parámetros con su fuente: tarifa, factor de emisión, PUE.',
+  'Son estimaciones con valores de referencia, no mediciones: podés cargar la potencia real de cada equipo.',
+];
 
 export default function Transparency() {
   return (
-    <section className="l-section cv" id="transparencia" aria-labelledby="transp-title">
-      <div className="l-container">
-        <div className="l-transp">
-          <div>
-            <SectionHead
-              id="transp-title"
-              eyebrow="Transparencia"
-              title={<>Cada número tiene <em>su cuenta y su fuente.</em></>}
-              lead="No hay cajas negras: las fórmulas son públicas, los parámetros salen de fuentes que podés abrir y todo se puede editar."
-            />
-            <Reveal as="ul" className="l-checks">
-              {['Fórmulas visibles, con la cuenta paso a paso de cada equipo.', 'Parámetros con su fuente: tarifa, factor de emisión, PUE.', 'Son estimaciones con valores de referencia, no mediciones: podés cargar la potencia real de cada equipo.'].map((t) => (
-                <li key={t}><Check aria-hidden="true" />{t}</li>
-              ))}
-            </Reveal>
-          </div>
-          <Reveal d={2}>
-            <pre className="l-code" tabIndex={0} aria-label="Fórmulas de cálculo">{FORMULAS}</pre>
-          </Reveal>
+    <section className="block" id="transparencia" aria-labelledby="transp-title">
+      <div className="g-split">
+        <div>
+          <span className="sec-eyebrow reveal">Transparencia</span>
+          <h2 className="g-title reveal d1" id="transp-title">Cada número tiene <em>su cuenta y su fuente.</em></h2>
+          <p className="g-lead reveal d2">No hay cajas negras: las fórmulas son públicas, los parámetros salen de fuentes que podés abrir y todo se puede editar.</p>
+          <ul className="g-checks reveal d3">
+            {CHECKS.map((t) => (
+              <li key={t}><Check aria-hidden="true" />{t}</li>
+            ))}
+          </ul>
         </div>
+        <div className="g-editor reveal d2">
+          <div className="dev-tabs" aria-hidden="true">
+            <div className="dev-dots"><span className="dev-dot-r" /><span className="dev-dot-y" /><span className="dev-dot-g" /></div>
+            <div className="dev-tab dev-tab--active">formulas.txt</div>
+            <div className="dev-tab">Cálculos</div>
+          </div>
+          <pre className="g-code" tabIndex={0} aria-label="Fórmulas de cálculo">
+            {FORMULAS.map(([t, note]) => (
+              <span key={t} className="g-code-line">
+                {t}
+                {note && <span className="g-code-note">{`   // ${note}`}</span>}
+              </span>
+            ))}
+          </pre>
+        </div>
+      </div>
 
-        <Reveal className="l-table-wrap" style={{ marginTop: 48 }}>
-          <table className="l-table">
-            <caption>Parámetros y fuentes</caption>
-            <thead><tr><th scope="col">Parámetro</th><th scope="col">Valor</th><th scope="col">Fuente</th></tr></thead>
-            <tbody>
-              {ROWS.map((r) => (
-                <tr key={r.name}>
-                  <th scope="row">{r.name}</th>
-                  <td>{r.value}</td>
-                  <td>
-                    {r.src}
-                    {r.url && <> <a href={r.url} target="_blank" rel="noreferrer">Ver fuente<ExternalLink aria-hidden="true" style={{ width: 12, height: 12, marginLeft: 4, display: 'inline' }} /></a></>}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Reveal>
+      <div className="g-table-wrap reveal d1">
+        <table className="g-table stack">
+          <caption>Parámetros y fuentes</caption>
+          <thead><tr><th scope="col">Parámetro</th><th scope="col">Valor</th><th scope="col">Fuente</th></tr></thead>
+          <tbody>
+            {ROWS.map((r) => (
+              <tr key={r.name}>
+                <th scope="row">{r.name}</th>
+                <td data-label="Valor">{r.value}</td>
+                <td data-label="Fuente">
+                  {r.src}
+                  {r.url && (
+                    <>
+                      {' '}
+                      <a href={r.url} target="_blank" rel="noreferrer" className="g-src-link">
+                        Ver fuente<ExternalLink aria-hidden="true" />
+                      </a>
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </section>
   );

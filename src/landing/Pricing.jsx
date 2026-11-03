@@ -1,5 +1,5 @@
 import { Check, Info } from 'lucide-react';
-import { Reveal, SectionHead, cx } from './ui.jsx';
+import { cx } from './ui.jsx';
 
 const PLANS = [
   {
@@ -32,35 +32,36 @@ const PLANS = [
 
 export default function Pricing() {
   return (
-    <section className="l-section cv" id="precios" aria-labelledby="precios-title">
-      <div className="l-container">
-        <SectionHead
-          id="precios-title"
-          center
-          eyebrow="Planes y precios"
-          title={<>Empezás gratis, <em>crecés cuando lo necesites.</em></>}
-          lead="Cuatro formas de usar GreenIT Calc, de la medición básica al servicio con acompañamiento."
-        />
-        <div className="l-plans">
-          {PLANS.map((p, i) => (
-            <Reveal key={p.name} d={i % 4}>
-              <div className={cx('l-plan-card', p.hl && 'hl')} style={{ height: '100%' }}>
-                {p.hl && <span className="l-badge">Plan destacado</span>}
-                <h3 className="l-plan-name">{p.name}</h3>
-                <p className="l-plan-price">{p.price}{p.unit && <small> {p.unit}</small>}</p>
-                <p className="l-plan-desc">{p.desc}</p>
-                <ul className="l-plan-list">
-                  {p.items.map((t) => <li key={t}><Check aria-hidden="true" />{t}</li>)}
-                </ul>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-        <Reveal className="l-note" role="note">
-          <Info aria-hidden="true" />
-          <p>Precios supuestos del equipo, a validar. Hoy todo es un prototipo académico: no se cobra nada.</p>
-        </Reveal>
+    <section className="g-section" id="precios" aria-labelledby="precios-title">
+      <div className="bento-glow" aria-hidden="true" />
+      <div className="bento-head">
+        <span className="sec-eyebrow reveal">Planes y precios</span>
+        <h2 className="bento-section-title reveal d1" id="precios-title">
+          Empezás gratis,
+          <br />
+          <em>crecés cuando lo necesites.</em>
+        </h2>
+        <p className="bento-lead reveal d2">Cuatro formas de usar GreenIT Calc, de la medición básica al servicio con acompañamiento.</p>
       </div>
+
+      <div className="price-grid">
+        {PLANS.map((p, i) => (
+          <article key={p.name} className={cx('price-card reveal', `d${(i % 4) + 1}`, p.hl && 'hl')}>
+            {p.hl && <span className="price-badge">Plan destacado</span>}
+            <h3 className="price-name">{p.name}</h3>
+            <p className="price-amount">{p.price}{p.unit && <small>{p.unit}</small>}</p>
+            <p className="price-desc">{p.desc}</p>
+            <ul className="price-list">
+              {p.items.map((t) => <li key={t}><Check aria-hidden="true" />{t}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+
+      <p className="price-note reveal" role="note">
+        <Info aria-hidden="true" />
+        <span>Precios supuestos del equipo, a validar. Hoy todo es un prototipo académico: no se cobra nada.</span>
+      </p>
     </section>
   );
 }
