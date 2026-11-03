@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useAuth } from './context/AuthContext.jsx';
 import Layout from './components/Layout.jsx';
+import Loader from './components/ui/Loader.jsx';
 import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Inventory from './pages/Inventory.jsx';
@@ -9,7 +10,7 @@ import Calculations from './pages/Calculations.jsx';
 
 function Protected({ children }) {
   const { user, loading } = useAuth();
-  if (loading) return <div className="splash">Cargando…</div>;
+  if (loading) return <div className="flex min-h-screen items-center justify-center"><Loader size="lg" text="Cargando…" /></div>;
   return user ? children : <Navigate to="/login" replace />;
 }
 
