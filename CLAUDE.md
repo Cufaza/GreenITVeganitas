@@ -56,5 +56,5 @@ reglas de oro (15). Una vista se da por terminada solo con la checklist **R.6** 
 
 ## Landing pública (fuera del kit)
 
-`src/landing/` queda **intencionalmente fuera del Sumar UI Kit** por decisión del usuario (2026-11-03): imita la landing del estudio (sumar-web) con paleta oscura de GreenIT, `motion`, `lenis` y `cobe`. La auditoría R.4 no aplica ahí. El CSS vive en `src/landing/landing.css` bajo `.landing` y la ruta se carga con `React.lazy`, así que nada se filtra a la app. Los números se calculan en runtime desde `demoData()`.
+`src/landing/` queda **intencionalmente fuera del Sumar UI Kit** por decisión del usuario (2026-11-03): es un port de la landing real del estudio (sumar21/sumar-web: mismo DOM, mismos valores de CSS y la misma lógica de motion/lenis/cobe) con la paleta de GreenIT (verde #7BD389 sobre fondos casi negros) y contenido propio. La auditoría R.4 no aplica ahí. El CSS vive en `src/landing/styles/*.css` (un archivo por sección, como sumar-web, más `greenit.css` con los agregados) bajo `.landing` y la ruta se carga con `React.lazy`, así que nada se filtra a la app. Los números se calculan en runtime desde `demoData()`.
 El asistente **Watti** (`src/components/watti/`) sí vive dentro de la app y sigue el kit. Excepción R.4 nueva: `shadow-lg` en el botón flotante de Watti.

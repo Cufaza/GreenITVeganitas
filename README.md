@@ -25,7 +25,7 @@ Se carga una empresa ficticia (Estudio Contable Delta) con 12 PCs, 12 monitores,
 
 Sin sesión, las rutas de la app redirigen a `/login`. Cualquier otra ruta vuelve a `/`.
 
-La landing vive aislada en `src/landing/` (CSS propio bajo la clase `.landing`). Imita la landing del estudio con una paleta oscura de GreenIT y queda fuera del Sumar UI Kit por decisión del equipo. Todos los números que muestra se calculan en runtime con el caso de demostración.
+La landing vive aislada en `src/landing/` (CSS propio bajo la clase `.landing`). Es un port de la landing del estudio (sumar-web) con una paleta oscura de GreenIT y queda fuera del Sumar UI Kit por decisión del equipo. Todos los números que muestra se calculan en runtime con el caso de demostración.
 
 ## Watti, el asistente de energía
 
@@ -116,7 +116,7 @@ src/lib/         calc.js (motor de cálculo), watti.js (respuestas del asistente
 src/services/    auth.js e inventory.js (simulados; reemplazables por Supabase)
 src/context/     AuthContext, DataContext
 src/pages/       Login, Dashboard, Inventory, Plan, Calculations
-src/landing/     landing pública (componentes + landing.css, aislada de la app)
+src/landing/     landing pública (componentes + styles/*.css, aislada de la app)
 src/components/watti/  widget del asistente Watti
 supabase/        schema.sql, seed_catalog.sql, seed_demo.sql
 scripts/         verify-calc.mjs
