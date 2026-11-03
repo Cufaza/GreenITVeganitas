@@ -45,7 +45,7 @@ export default function Login() {
         <Leaf className="pointer-events-none absolute -bottom-10 right-6 h-64 w-64 rotate-12 text-white/[0.07]" strokeWidth={1} />
 
         <div className="relative z-10 flex h-full w-full flex-col justify-between gap-10 p-8 sm:p-12">
-          <div className="brightness-0 invert"><Logo height={48} /></div>
+          <Logo height={56} light />
           <div className="max-w-xl space-y-8">
             <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl xl:text-5xl">
               Medí el consumo de tu infraestructura IT. Reducí su costo y su huella de carbono.
