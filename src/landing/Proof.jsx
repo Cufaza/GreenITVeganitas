@@ -1,6 +1,4 @@
-import { Reveal } from './ui.jsx';
-
-// Real data sources and frameworks the calculator is built on. These are sources, not clients.
+// Real data sources and frameworks the calculator is built on, in sumar's logo-marquee strip. They are sources, not clients.
 const SOURCES = [
   ['IEA', 'Agencia Internacional de la Energía'],
   ['LBNL 2016', 'US Data Center Energy Usage Report'],
@@ -11,24 +9,21 @@ const SOURCES = [
   ['ODS 12', 'Producción y consumo responsables'],
   ['ODS 13', 'Acción por el clima'],
 ];
-
-const Set = ({ hidden }) => (
-  <ul className="l-marquee-set" aria-hidden={hidden || undefined}>
-    {SOURCES.map(([name, desc]) => (
-      <li key={name} className="l-source-pill"><i aria-hidden="true" /><b>{name}</b> {desc}</li>
-    ))}
-  </ul>
-);
+const items = [...SOURCES, ...SOURCES];
 
 export default function Proof() {
   return (
-    <section className="l-proof" aria-labelledby="proof-title">
-      <Reveal as="p" className="l-proof-label" id="proof-title">Fuentes y marcos en los que se apoya el cálculo</Reveal>
-      <div className="l-marquee">
-        <div className="l-marquee-track">
-          <Set />
-          <Set hidden />
-        </div>
+    <section className="proof" aria-labelledby="proof-label">
+      <p className="proof-label" id="proof-label">Fuentes y marcos en los que se apoya el cálculo</p>
+      <div className="proof-mask">
+        <ul className="proof-track">
+          {items.map(([name, desc], i) => (
+            <li key={i} className="proof-item" aria-hidden={i >= SOURCES.length || undefined}>
+              <b>{name}</b>
+              <span>{desc}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

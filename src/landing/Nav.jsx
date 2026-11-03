@@ -2,15 +2,24 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import Logo from '../components/Logo.jsx';
-import { PrimaryCta, SecondaryCta, cx } from './ui.jsx';
+import { SecondaryCta, cx } from './ui.jsx';
 
 export const NAV_LINKS = [
-  ['Cómo funciona', '#como-funciona'],
   ['Funcionalidades', '#funcionalidades'],
+  ['Cómo funciona', '#como-funciona'],
   ['Caso demo', '#caso'],
   ['Precios', '#precios'],
   ['Preguntas', '#preguntas'],
 ];
+
+function NavCta({ cta, className, onDone }) {
+  if (cta.user) return <Link to="/panel" className={className} onClick={onDone}>Ir al panel</Link>;
+  return (
+    <button type="button" className={className} onClick={() => { onDone?.(); cta.startDemo(); }} disabled={cta.busy || cta.loading}>
+      {cta.busy && <Loader2 className="spin" aria-hidden="true" />} Probar la demo
+    </button>
+  );
+}
 
 export default function Nav({ cta, onMenuChange }) {
   const [scrolled, setScrolled] = useState(false);
@@ -18,7 +27,7 @@ export default function Nav({ cta, onMenuChange }) {
   const burgerRef = useRef(null);
   const firstLinkRef = useRef(null);
 
-  // rAF-throttled scroll listener
+  // rAF-throttled scroll listener (same as sumar's Navbar)
   useEffect(() => {
     let raf = 0;
     const update = () => {
@@ -56,62 +65,52 @@ export default function Nav({ cta, onMenuChange }) {
     };
   }, [open, onMenuChange]);
 
-  // The menu is display:none under 900px wide only through the burger; close it if the viewport grows.
+  // The overlay only exists under 860px: close it if the viewport grows
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 901px)');
+    const mq = window.matchMedia('(min-width: 861px)');
     const onChange = () => mq.matches && setOpen(false);
     mq.addEventListener('change', onChange);
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
+  const close = () => setOpen(false);
+
   return (
     <>
-    <header className={cx('l-nav', scrolled && 'is-scrolled')}>
-      <div className="l-container l-nav-in">
-        <a href="#top" className="l-logo" aria-label="GreenIT Calc, ir al inicio"><Logo light height={44} /></a>
-        <nav className="l-links" aria-label="Secciones">
-          {NAV_LINKS.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
-        </nav>
-        <div className="l-nav-cta">
-          <SecondaryCta cta={cta} />
-          {cta.user ? (
-            <Link to="/panel" className="l-pill">Ir al panel</Link>
-          ) : (
-            <button type="button" className="l-pill" onClick={cta.startDemo} disabled={cta.busy || cta.loading}>
-              {cta.busy && <Loader2 className="l-spin" aria-hidden="true" />} Probar la demo
-            </button>
-          )}
-        </div>
-        <button
-          ref={burgerRef}
-          type="button"
-          className="l-burger"
-          aria-expanded={open}
-          aria-controls="l-menu"
-          aria-label={open ? 'Cerrar el menú' : 'Abrir el menú'}
-          onClick={() => setOpen((o) => !o)}
-        >
-          <span /><span />
-        </button>
-      </div>
-    </header>
-
-      <div id="l-menu" className={cx('l-menu', open && 'is-open')} aria-hidden={!open}>
-        {NAV_LINKS.map(([label, href], i) => (
-          <a
-            key={href}
-            ref={i === 0 ? firstLinkRef : null}
-            href={href}
-            className="l-menu-link"
-            style={{ transitionDelay: open ? `${0.12 + i * 0.07}s` : '0s' }}
-            onClick={() => setOpen(false)}
-          >
-            {label}
+      <nav className={cx('nav', scrolled && 'scrolled', open && 'menu-open')} aria-label="Principal">
+        <div className="nav-inner">
+          <a href="#inicio" className="brand magnet" aria-label="GreenIT Calc, ir al inicio" onClick={close}>
+            <Logo light height={40} />
           </a>
-        ))}
-        <div className="l-menu-cta" onClick={() => setOpen(false)}>
-          <PrimaryCta cta={cta} />
-          <SecondaryCta cta={cta} />
+          <div className="nav-links">
+            {NAV_LINKS.map(([label, href]) => <a key={href} href={href} className="magnet">{label}</a>)}
+          </div>
+          <div className="nav-actions">
+            <SecondaryCta cta={cta} className="nav-login magnet" />
+            <NavCta cta={cta} className="nav-cta magnet" />
+          </div>
+          <button
+            ref={burgerRef}
+            type="button"
+            className={cx('nav-burger', open && 'is-open')}
+            onClick={() => setOpen((o) => !o)}
+            aria-label={open ? 'Cerrar el menú' : 'Abrir el menú'}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+          >
+            <span />
+            <span />
+          </button>
+        </div>
+      </nav>
+
+      <div id="mobile-menu" className={cx('nav-menu', open && 'is-open')} aria-hidden={!open}>
+        <div className="nav-menu-inner">
+          {NAV_LINKS.map(([label, href], i) => (
+            <a key={href} ref={i === 0 ? firstLinkRef : null} href={href} className="nav-menu-link" onClick={close}>{label}</a>
+          ))}
+          <NavCta cta={cta} className="nav-menu-cta" onDone={close} />
+          {!cta.user && <Link to="/login" className="nav-menu-login" onClick={close}>Ingresar</Link>}
         </div>
       </div>
     </>
