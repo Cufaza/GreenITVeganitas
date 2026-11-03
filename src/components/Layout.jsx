@@ -8,7 +8,7 @@ import Loader from './ui/Loader.jsx';
 import { Button, cn, useModalAnimation } from './ui/UIComponents.jsx';
 
 const links = [
-  { to: '/', label: 'Panel', icon: LayoutDashboard },
+  { to: '/panel', label: 'Panel', icon: LayoutDashboard },
   { to: '/inventario', label: 'Inventario', icon: Server },
   { to: '/plan', label: 'Plan de ahorro', icon: PiggyBank },
   { to: '/calculos', label: 'Cálculos', icon: Calculator },
@@ -21,7 +21,6 @@ function Nav({ onNavigate }) {
         <NavLink
           key={to}
           to={to}
-          end={to === '/'}
           onClick={onNavigate}
           className={({ isActive }) => cn(
             'group flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all',
@@ -67,7 +66,7 @@ export default function Layout() {
   const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const drawer = useModalAnimation(menuOpen);
-  const current = links.find((l) => (l.to === '/' ? pathname === '/' : pathname.startsWith(l.to)));
+  const current = links.find((l) => pathname.startsWith(l.to));
 
   return (
     <div className="flex h-screen bg-background text-foreground print:block print:h-auto">

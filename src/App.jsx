@@ -1,3 +1,4 @@
+import { Suspense, lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useAuth } from './context/AuthContext.jsx';
 import Layout from './components/Layout.jsx';
@@ -7,6 +8,9 @@ import Dashboard from './pages/Dashboard.jsx';
 import Inventory from './pages/Inventory.jsx';
 import Plan from './pages/Plan.jsx';
 import Calculations from './pages/Calculations.jsx';
+
+// The public landing is isolated in src/landing and loaded on demand so its dependencies stay out of the app bundle.
+const Landing = lazy(() => import('./landing/Landing.jsx'));
 
 function Protected({ children }) {
   const { user, loading } = useAuth();
@@ -18,9 +22,13 @@ export default function App() {
   const { user, loading } = useAuth();
   return (
     <Routes>
-      <Route path="/login" element={!loading && user ? <Navigate to="/" replace /> : <Login />} />
+      <Route
+        path="/"
+        element={<Suspense fallback={<div className="min-h-screen bg-background" />}><Landing /></Suspense>}
+      />
+      <Route path="/login" element={!loading && user ? <Navigate to="/panel" replace /> : <Login />} />
       <Route element={<Protected><Layout /></Protected>}>
-        <Route index element={<Dashboard />} />
+        <Route path="panel" element={<Dashboard />} />
         <Route path="inventario" element={<Inventory />} />
         <Route path="plan" element={<Plan />} />
         <Route path="calculos" element={<Calculations />} />
