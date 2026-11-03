@@ -6,49 +6,42 @@ const SRC = (id) => FUENTES.find((f) => f.id === id)?.url;
 
 export default function Footer({ user }) {
   return (
-    <footer className="l-footer">
-      <div className="l-container">
-        <div className="l-footer-grid">
-          <div>
-            <Logo light height={38} />
-            <p className="l-footer-blurb">Calculadora de consumo, costo y huella de carbono de la infraestructura IT de una PyME.</p>
-          </div>
-          <nav aria-label="Producto">
-            <h4>Producto</h4>
-            <ul>
-              <li><a href="#funcionalidades">Funcionalidades</a></li>
-              <li><a href="#caso">Caso demo</a></li>
-              <li><a href="#precios">Precios</a></li>
-              <li><a href="#preguntas">Preguntas frecuentes</a></li>
-              <li><Link to={user ? '/panel' : '/login'}>{user ? 'Ir al panel' : 'Ingresar'}</Link></li>
-            </ul>
-          </nav>
-          <nav aria-label="Fuentes">
-            <h4>Fuentes</h4>
-            <ul>
-              <li><a href={SRC('fe')} target="_blank" rel="noreferrer">SNIGEI-AR 2025</a></li>
-              <li><a href={SRC('tarifa')} target="_blank" rel="noreferrer">Cuadro tarifario Edenor</a></li>
-              <li><a href={SRC('pue')} target="_blank" rel="noreferrer">LBNL 2016</a></li>
-              <li><a href="#transparencia">Fórmulas y parámetros</a></li>
-            </ul>
-          </nav>
-          <div>
-            <h4>Proyecto</h4>
-            <ul>
-              <li>Equipo 1 Veganitas</li>
-              <li>Innovación y Emprendedorismo</li>
-              <li>Ingeniería Informática</li>
-              <li>Desafío 2: eficiencia energética y huella de carbono en infraestructura IT</li>
-            </ul>
-          </div>
+    <footer>
+      <div className="foot-inner">
+        <div className="foot-brand">
+          <a href="#inicio" className="foot-logo magnet" aria-label="GreenIT Calc, ir al inicio">
+            <Logo light height={44} />
+          </a>
+          <p className="foot-blurb">Calculadora de consumo, costo y huella de carbono de la infraestructura IT de una PyME.</p>
         </div>
-        <div className="l-footer-bar">
-          <p>
-            Prototipo académico del Equipo 1 Veganitas · Innovación y Emprendedorismo · Ingeniería Informática · Desafío 2: eficiencia energética y huella de carbono en infraestructura IT.
-            Es un prototipo con datos de demostración: la empresa del caso es ficticia y los precios son supuestos.
-          </p>
-          <span className="l-vegan"><img src="/veganitas-logo.svg" alt="Veganitas" /></span>
+        <nav className="foot-col" aria-label="Producto">
+          <h5>Producto</h5>
+          <a href="#funcionalidades" className="magnet">Funcionalidades</a>
+          <a href="#caso" className="magnet">Caso demo</a>
+          <a href="#precios" className="magnet">Precios</a>
+          <a href="#preguntas" className="magnet">Preguntas frecuentes</a>
+          <Link to={user ? '/panel' : '/login'} className="magnet">{user ? 'Ir al panel' : 'Ingresar'}</Link>
+        </nav>
+        <nav className="foot-col" aria-label="Fuentes">
+          <h5>Fuentes</h5>
+          <a href={SRC('fe')} target="_blank" rel="noreferrer" className="magnet">SNIGEI-AR 2025</a>
+          <a href={SRC('tarifa')} target="_blank" rel="noreferrer" className="magnet">Cuadro tarifario Edenor</a>
+          <a href={SRC('pue')} target="_blank" rel="noreferrer" className="magnet">LBNL 2016</a>
+          <a href="#transparencia" className="magnet">Fórmulas y parámetros</a>
+        </nav>
+        <div className="foot-col">
+          <h5>Proyecto</h5>
+          <p>Equipo 1 Veganitas</p>
+          <p>Innovación y Emprendedorismo</p>
+          <p>Ingeniería Informática</p>
+          <p>Desafío 2: eficiencia energética y huella de carbono en infraestructura IT</p>
         </div>
+      </div>
+      <div className="foot-bottom">
+        <span>
+          Prototipo académico del Equipo 1 Veganitas. Es un prototipo con datos de demostración: la empresa del caso es ficticia y los precios son supuestos.
+        </span>
+        <span className="foot-vegan"><img src="/veganitas-logo.svg" alt="Veganitas" /></span>
       </div>
     </footer>
   );
