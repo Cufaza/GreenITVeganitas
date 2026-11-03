@@ -95,20 +95,21 @@ export default function Plan() {
                 >
                   {on && <Check className="h-3.5 w-3.5" />}
                 </span>
-                <div className="min-w-0 flex-1 space-y-1">
-                  <h3 className="font-semibold">{r.titulo}</h3>
-                  <p className="text-sm text-muted-foreground">{r.descripcion}</p>
-                  <p className="text-xs text-muted-foreground/80">{r.supuesto}</p>
+                {/* <label> only allows phrasing content: spans styled as blocks */}
+                <span className="block min-w-0 flex-1 space-y-1">
+                  <span className="block font-semibold">{r.titulo}</span>
+                  <span className="block text-sm text-muted-foreground">{r.descripcion}</span>
+                  <span className="block text-xs text-muted-foreground/80">{r.supuesto}</span>
                   {r.esAplicable ? (
-                    <div className="flex flex-wrap gap-2 pt-2">
+                    <span className="flex flex-wrap gap-2 pt-2">
                       <Saving value={`${fmt(r.ahorro.kWhMes)} kWh/mes`} sub={fmtPct(r.ahorro.pct)} />
                       <Saving value={`${fmtARS(r.ahorro.costoMes)}/mes`} />
                       <Saving value={`${fmt(r.ahorro.co2Mes)} kg CO₂/mes`} />
-                    </div>
+                    </span>
                   ) : (
-                    <p className="pt-1 text-xs font-medium text-muted-foreground">No aplica a tu inventario actual.</p>
+                    <span className="block pt-1 text-xs font-medium text-muted-foreground">No aplica a tu inventario actual.</span>
                   )}
-                </div>
+                </span>
               </label>
             );
           })}
