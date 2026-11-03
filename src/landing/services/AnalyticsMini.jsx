@@ -82,7 +82,7 @@ export default function AnalyticsMini() {
 
       <div className="an-frame" role="img" aria-label={`Panel de ejemplo: ${fmt(totales.kWhMes)} kWh por mes, ${fmtARS(totales.costoMes)} por mes y ${fmt(totales.co2Mes)} kg de CO₂ por mes.`}>
         <div className="an-head">
-          <div className="an-title">Panel <span className="an-yr">· Estudio Delta</span></div>
+          <div className="an-title">Panel <span className="an-yr">· DIIT UNLaM</span></div>
         </div>
 
         <div className="an-kpis">

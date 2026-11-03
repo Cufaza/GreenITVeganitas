@@ -39,7 +39,7 @@ async function ensureDemoUser() {
     users.push({
       id: 'demo-user',
       email: DEMO_EMAIL,
-      empresa: 'Estudio Contable Delta',
+      empresa: 'UNLaM, DIIT (caso simulado)',
       demo: true,
       hash: await hash(DEMO_EMAIL, DEMO_PASSWORD),
     });

@@ -121,8 +121,8 @@ export default function ProblemDashboard() {
               ))}
             </nav>
             <div className="dash-sidebar-foot">
-              <div className="dash-av">ED</div>
-              <div className="dash-user"><span>Estudio Delta</span><span>Empresa ficticia</span></div>
+              <div className="dash-av">DI</div>
+              <div className="dash-user"><span>DIIT · UNLaM</span><span>Caso simulado</span></div>
             </div>
           </aside>
 
@@ -130,7 +130,7 @@ export default function ProblemDashboard() {
             <header className="dash-header">
               <div>
                 <div className="dash-page-title">Panel</div>
-                <div className="dash-page-sub">Estudio Contable Delta, caso de demostración.</div>
+                <div className="dash-page-sub">DIIT, UNLaM · caso simulado.</div>
               </div>
               <div className="dash-header-acts">
                 <button type="button" tabIndex={-1} className="dash-btn-ghost" aria-label="Notificaciones"><Bell size={14} strokeWidth={1.8} /></button>

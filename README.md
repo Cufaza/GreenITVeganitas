@@ -10,7 +10,7 @@ Stack: React 18 + Vite + React Router + Recharts. La landing pública suma `moti
 - Clave: `demo1234`
 - O el botón **Entrar con la cuenta de demostración**.
 
-Se carga una empresa ficticia (Estudio Contable Delta) con 12 PCs, 12 monitores, 4 notebooks, 2 servidores y un switch. Los equipos y horarios son inventados; los parámetros de cálculo son reales (ver más abajo).
+Se carga un caso simulado: el Departamento de Ingeniería e Investigaciones Tecnológicas (DIIT) de la Universidad Nacional de La Matanza, con 70 PCs (dos laboratorios de computación y administración), 70 monitores, 15 notebooks de docentes, 2 servidores y 3 switches. Los equipos, cantidades y horarios son inventados y no son mediciones reales de la UNLaM; los parámetros de cálculo son reales (ver más abajo). Simplificación: una universidad real estaría en una tarifa de gran demanda y la app solo modela Edenor T1-G (tramo G3 en la demo).
 
 ## Rutas
 

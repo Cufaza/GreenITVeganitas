@@ -58,7 +58,7 @@ export const CATEGORIAS = {
 };
 
 export const UBICACIONES = {
-  oficina: 'Oficina',
+  oficina: 'Oficina o laboratorio',
   sala_servidores: 'Sala de servidores',
 };
 

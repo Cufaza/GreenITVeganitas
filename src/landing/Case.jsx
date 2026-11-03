@@ -68,7 +68,7 @@ function chartHoy() {
       <BarChart data={data} margin={{ top: 8, right: 8, left: -14, bottom: 4 }}>
         <CartesianGrid stroke={C.grid} vertical={false} />
         <XAxis dataKey="name" tick={TICK} {...AXIS} interval={0} />
-        <YAxis tick={TICK} {...AXIS} width={46} />
+        <YAxis tick={TICK} {...AXIS} width={54} />
         <Tooltip cursor={{ fill: C.cursor }} content={<Tip rows={(d) => [['Equipos IT', `${fmt(d.it)} kWh`, C.it], ['Refrigeración', `${fmt(d.refrig)} kWh`, C.refrig], ['Total', `${fmt(d.total)} kWh`]]} />} />
         <Bar dataKey="it" stackId="a" fill={C.it} maxBarSize={38} />
         <Bar dataKey="refrig" stackId="a" fill={C.refrig} maxBarSize={38} radius={[4, 4, 0, 0]} />
@@ -99,7 +99,7 @@ function chartPlan() {
       <BarChart data={data} margin={{ top: 28, right: 8, left: -14, bottom: 0 }}>
         <CartesianGrid stroke={C.grid} vertical={false} />
         <XAxis dataKey="name" tick={TICK} {...AXIS} />
-        <YAxis tick={TICK} {...AXIS} width={46} />
+        <YAxis tick={TICK} {...AXIS} width={54} />
         <Tooltip cursor={{ fill: C.cursor }} content={<Tip rows={(d) => [['Consumo', `${fmt(d.kwh)} kWh`], ['Costo', `${fmtARS(d.costo)} por mes`], ['Huella', `${fmt(d.co2)} kg CO₂`]]} />} />
         <Bar dataKey="kwh" maxBarSize={64} radius={[6, 6, 0, 0]}>
           <Cell fill={C.hoy} />
@@ -177,7 +177,7 @@ const CARDS = {
     { key: 'kpi', size: 'md', mock: kpisHoy, title: 'Tres números clave', desc: 'Consumo, costo y huella de carbono del mes, con la proyección anual.' },
   ],
   plan: [
-    { key: 'chart', size: 'xl', mock: chartPlan, title: 'Antes y después del plan', desc: 'El mismo estudio aplicando las tres medidas, una sobre la otra.' },
+    { key: 'chart', size: 'xl', mock: chartPlan, title: 'Antes y después del plan', desc: 'El mismo departamento aplicando las tres medidas, una sobre la otra.' },
     { key: 'kpi', size: 'md', mock: kpisPlan, title: 'Qué cambia', desc: 'Menos kWh, menos pesos y menos CO₂ por mes.' },
   ],
   medida: [
@@ -282,9 +282,9 @@ export default function Case() {
       <div className="cases-head">
         <div>
           <span className="sec-eyebrow reveal">Caso de demostración</span>
-          <h2 className="sec-title reveal d1" id="caso-title">Estudio Contable Delta, <em>antes y después.</em></h2>
+          <h2 className="sec-title reveal d1" id="caso-title">DIIT, UNLaM: <em>antes y después.</em></h2>
           <p className="cases-lead reveal d1">
-            Es una empresa ficticia, inventada para esta demo: {equipos.join(', ')}. Los equipos y horarios son de ejemplo; los parámetros de cálculo son reales.
+            Es un caso simulado del Departamento de Ingeniería e Investigaciones Tecnológicas (DIIT) de la Universidad Nacional de La Matanza. Los equipos, cantidades y horarios son inventados y no son mediciones reales de la UNLaM: {equipos.join(', ')}. Los parámetros de cálculo sí son reales.
           </p>
         </div>
         <div className="cases-filters reveal d2" role="tablist" aria-label="Vistas del caso" ref={filtersRef} onKeyDown={onKey}>

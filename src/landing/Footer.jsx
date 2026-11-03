@@ -39,7 +39,7 @@ export default function Footer({ user }) {
       </div>
       <div className="foot-bottom">
         <span>
-          Prototipo académico del Equipo 1 Veganitas. Es un prototipo con datos de demostración: la empresa del caso es ficticia y los precios son supuestos.
+          Prototipo académico del Equipo 1 Veganitas. Es un prototipo con datos de demostración: el caso es simulado (no son mediciones reales de la UNLaM) y los precios son supuestos.
         </span>
         <span className="foot-vegan"><img src="/veganitas-logo.svg" alt="Veganitas" /></span>
       </div>

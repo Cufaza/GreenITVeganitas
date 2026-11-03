@@ -110,21 +110,23 @@ drop policy if exists items_all on public.inventory_items;
 create policy items_all on public.inventory_items for all to authenticated
   using (org_id = public.current_org_id()) with check (org_id = public.current_org_id());
 
--- Datos de demostración (empresa ficticia "Estudio Contable Delta"), iguales a src/data/demo.js
+-- Datos de demostración (caso simulado del DIIT de la UNLaM), iguales a src/data/demo.js
 create or replace function public._insertar_demo(p_org uuid) returns void
 language plpgsql security definer set search_path = public as $$
 begin
   delete from public.inventory_items where org_id = p_org;
-  update public.organizations set nombre = 'Estudio Contable Delta (empresa ficticia de demo)',
-    tarifa_tramo = 'G2', tarifa_ars = 214.170, factor_emision = 0.283, factor_anio = 2022,
+  update public.organizations set nombre = 'UNLaM, DIIT (caso simulado)',
+    tarifa_tramo = 'G3', tarifa_ars = 216.572, factor_emision = 0.283, factor_anio = 2022,
     tipo_sala = 'sala', pue = 2.5 where id = p_org;
   insert into public.inventory_items (org_id, catalog_id, nombre, cantidad, ubicacion, horas_uso, horas_reposo, carga_pct) values
-    (p_org, 'pc-escritorio', 'PCs de escritorio del estudio', 12, 'oficina', 40, 128, 100),
-    (p_org, 'monitor-lcd', 'Monitores de las PCs', 12, 'oficina', 40, 128, 100),
-    (p_org, 'notebook', 'Notebooks de los socios', 4, 'oficina', 30, 20, 100),
-    (p_org, 'servidor-2s', 'Servidor de archivos y sistema contable', 1, 'sala_servidores', 168, 0, 35),
-    (p_org, 'servidor-1s', 'Servidor viejo de pruebas (casi sin uso)', 1, 'sala_servidores', 168, 0, 5),
-    (p_org, 'switch-24', 'Switch de la red del estudio', 1, 'sala_servidores', 168, 0, 100);
+    (p_org, 'pc-escritorio', 'PCs de los 2 laboratorios de computación', 60, 'oficina', 60, 108, 100),
+    (p_org, 'monitor-lcd', 'Monitores de los laboratorios', 60, 'oficina', 60, 108, 100),
+    (p_org, 'pc-escritorio', 'PCs de secretaría y administración', 10, 'oficina', 40, 128, 100),
+    (p_org, 'monitor-lcd', 'Monitores de secretaría y administración', 10, 'oficina', 40, 128, 100),
+    (p_org, 'notebook', 'Notebooks de docentes', 15, 'oficina', 30, 20, 100),
+    (p_org, 'servidor-2s', 'Servidor de entornos de laboratorio y archivos', 1, 'sala_servidores', 168, 0, 35),
+    (p_org, 'servidor-1s', 'Servidor viejo de cátedras (casi sin uso)', 1, 'sala_servidores', 168, 0, 5),
+    (p_org, 'switch-24', 'Switches de la red del departamento', 3, 'sala_servidores', 168, 0, 100);
 end $$;
 revoke all on function public._insertar_demo(uuid) from public, anon, authenticated;
 

@@ -223,7 +223,7 @@ Servidores      : P_uso = P_reposo + carga% × (P_máx − P_reposo)`}</Formula>
             `El factor de emisión es un promedio anual de la red argentina (año ${FACTOR_EMISION.anio}). No distingue la hora del día.`,
             'La refrigeración se estima con el PUE típico de cada tipo de sala; no reemplaza la medición del consumo del aire acondicionado.',
             'El ahorro de cada medida es una estimación por simulación, no una garantía.',
-            'Los datos de demostración pertenecen a una empresa ficticia.',
+            'Los datos de demostración son un caso simulado de un departamento universitario.',
           ].map((t) => (
             <li key={t} className="flex gap-2.5"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />{t}</li>
           ))}
