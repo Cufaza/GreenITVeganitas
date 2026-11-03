@@ -1,0 +1,265 @@
+/* Navbar */
+.landing .nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 80;
+  padding: 18px 0;
+  background: rgba(7, 8, 10, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.3s var(--ease), backdrop-filter 0.3s var(--ease),
+    border-color 0.3s var(--ease), padding 0.3s var(--ease);
+}
+
+.landing .nav-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.landing .nav.scrolled {
+  background: rgba(7, 8, 10, 0.88);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-bottom-color: var(--line);
+  padding: 12px 0;
+}
+
+.landing .brand {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.landing .brand img {
+  height: 26px;
+  width: auto;
+  display: block;
+}
+
+.landing .nav-links {
+  display: flex;
+  gap: 36px;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 auto;
+}
+
+.landing .nav-links a {
+  transition: color 0.2s var(--ease);
+}
+
+.landing .nav-links a:hover {
+  color: #fff;
+}
+
+.landing .nav-cta {
+  background: transparent;
+  color: var(--yellow);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 11px 24px;
+  border: 1.5px solid rgba(123, 211, 137, 0.7);
+  border-radius: 999px;
+  box-shadow: none;
+  transition: background var(--d-med) var(--ease), color var(--d-med) var(--ease),
+    border-color var(--d-med) var(--ease), box-shadow var(--d-med) var(--ease),
+    transform var(--d-med) var(--ease);
+  flex: 0 0 auto;
+}
+
+.landing .nav-cta:hover {
+  background: rgba(123, 211, 137, 0.1);
+  transform: translateY(-1px);
+}
+
+.landing .nav.scrolled .nav-cta {
+  background: linear-gradient(180deg, #8fe39b 0%, #5fb86b 100%);
+  color: #000;
+  border-color: transparent;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.12),
+    0 4px 18px rgba(0, 0, 0, 0.35),
+    0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.landing .nav.scrolled .nav-cta:hover {
+  background: linear-gradient(180deg, #a8eeb3 0%, #7bd389 100%);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.1),
+    0 6px 24px rgba(0, 0, 0, 0.4),
+    0 1px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.landing .nav-burger {
+  display: none;
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+  padding: 0;
+  flex: 0 0 auto;
+  transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+.landing .nav-burger:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.landing .nav-burger span {
+  position: absolute;
+  height: 1.5px;
+  background: #fff;
+  border-radius: 999px;
+  transition: width 0.45s cubic-bezier(0.65, 0, 0.35, 1),
+    top 0.45s cubic-bezier(0.65, 0, 0.35, 1),
+    left 0.45s cubic-bezier(0.65, 0, 0.35, 1),
+    right 0.45s cubic-bezier(0.65, 0, 0.35, 1),
+    transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.landing .nav-burger span:nth-child(1) {
+  width: 18px;
+  top: 16px;
+  left: 8px;
+}
+
+.landing .nav-burger span:nth-child(2) {
+  width: 12px;
+  top: 24px;
+  right: 8px;
+}
+
+.landing .nav-burger.is-open span:nth-child(1) {
+  width: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.landing .nav-burger.is-open span:nth-child(2) {
+  width: 20px;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.landing .nav-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(8, 8, 8, 0.96);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+  display: none;
+}
+
+.landing .nav-menu.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.landing .nav-menu-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  padding: 24px;
+}
+
+.landing .nav-menu-link,
+.landing .nav-menu-cta {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), color 0.2s var(--ease),
+    background 0.2s var(--ease);
+}
+
+.landing .nav-menu-link {
+  font-size: clamp(28px, 7vw, 38px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: #fff;
+  text-decoration: none;
+}
+
+.landing .nav-menu-link:hover,
+.landing .nav-menu-link:focus-visible {
+  color: var(--yellow);
+}
+
+.landing .nav-menu-cta {
+  margin-top: 20px;
+  padding: 14px 32px;
+  background: var(--yellow);
+  color: #000;
+  border: none;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 0 28px rgba(123, 211, 137, 0.3);
+}
+
+.landing .nav-menu-cta:hover {
+  background: #9be8a6;
+}
+
+.landing .nav-menu.is-open .nav-menu-link,
+.landing .nav-menu.is-open .nav-menu-cta {
+  opacity: 1;
+  transform: none;
+}
+
+.landing .nav-menu.is-open .nav-menu-link:nth-child(1) { transition-delay: 0.12s; }
+.landing .nav-menu.is-open .nav-menu-link:nth-child(2) { transition-delay: 0.18s; }
+.landing .nav-menu.is-open .nav-menu-link:nth-child(3) { transition-delay: 0.24s; }
+.landing .nav-menu.is-open .nav-menu-link:nth-child(4) { transition-delay: 0.30s; }
+.landing .nav-menu.is-open .nav-menu-cta { transition-delay: 0.40s; }
+
+@media (max-width: 860px) {
+  .landing .nav-inner {
+    padding: 0 20px;
+  }
+  .landing .nav-links,
+  .landing .nav-cta {
+    display: none;
+  }
+  .landing .nav-burger {
+    display: inline-flex;
+  }
+  .landing .nav-menu {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing .nav-burger span,
+  .landing .nav-menu,
+  .landing .nav-menu-link,
+  .landing .nav-menu-cta {
+    transition-duration: 0.01ms;
+  }
+}
+

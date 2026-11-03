@@ -1,0 +1,30 @@
+/* Reveal animation */
+.landing .reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+}
+
+.landing .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+.landing .reveal.d1 {
+  transition-delay: 0.08s;
+}
+.landing .reveal.d2 {
+  transition-delay: 0.16s;
+}
+.landing .reveal.d3 {
+  transition-delay: 0.24s;
+}
+.landing .reveal.d4 {
+  transition-delay: 0.32s;
+}
+
+/* Count-up metric wrapper */
+.landing .count {
+  font-variant-numeric: tabular-nums;
+}
+

@@ -1,0 +1,109 @@
+/* Proof strip */
+.landing .proof {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 40px 0;
+  overflow: hidden;
+  background: var(--bg);
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 120px,
+    #000 calc(100% - 120px),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 120px,
+    #000 calc(100% - 120px),
+    transparent 100%
+  );
+}
+
+.landing .proof-track {
+  display: flex;
+  gap: 96px;
+  animation: ld-marquee 60s linear infinite;
+  width: max-content;
+  align-items: center;
+}
+
+.landing .proof-logo {
+  height: 40px;
+  width: auto;
+  max-width: none;
+  flex-shrink: 0;
+  opacity: 0.75;
+  filter: brightness(0) invert(1);
+  transition: opacity 0.3s var(--ease);
+  user-select: none;
+}
+
+.landing .proof-logo:hover {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .landing .proof {
+    padding: 32px 0;
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 60px,
+      #000 calc(100% - 60px),
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 60px,
+      #000 calc(100% - 60px),
+      transparent 100%
+    );
+  }
+  .landing .proof-track {
+    gap: 60px;
+  }
+  .landing .proof-logo {
+    height: 32px;
+  }
+}
+
+@media (max-width: 560px) {
+  .landing .proof {
+    padding: 24px 0;
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 32px,
+      #000 calc(100% - 32px),
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 32px,
+      #000 calc(100% - 32px),
+      transparent 100%
+    );
+  }
+  .landing .proof-track {
+    gap: 40px;
+  }
+  .landing .proof-logo {
+    height: 26px;
+  }
+}
+
+@keyframes ld-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+

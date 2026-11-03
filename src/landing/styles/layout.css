@@ -1,0 +1,48 @@
+
+
+/* Section frame */
+.landing section.block {
+  position: relative;
+  z-index: 2;
+  padding: 140px 40px;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .landing section.block {
+    padding: 96px 28px;
+  }
+}
+
+@media (max-width: 560px) {
+  .landing section.block {
+    padding: 72px 20px;
+  }
+}
+
+.landing .sec-eyebrow {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+  display: block;
+}
+
+.landing .sec-title {
+  font-weight: 700;
+  font-size: clamp(32px, 3.2vw, 56px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin-bottom: 56px;
+  max-width: 720px;
+}
+
+.landing .sec-title em {
+  color: var(--muted);
+  font-style: normal;
+}
+
