@@ -19,12 +19,12 @@ export const SCENES = {
 
 export const T = {
   // Intro
-  logoStart: 24,
-  logoHit: 54, // logo is sharp: impact + shimmer
-  logoSweep: 66,
-  lemaStart: 100,
-  lemaEnd: 154,
-  introFadeStart: 165,
+  logoStart: 36,
+  logoHit: 72, // logo is sharp: impact + shimmer (beat 2 of the grid)
+  logoSweep: 84,
+  lemaStart: 108,
+  lemaEnd: 150,
+  introFadeStart: 172,
 
   // Reveal
   revealWhoosh: 188, // iso -> tilt camera move starts
@@ -62,10 +62,10 @@ export const T = {
   // Outro
   outroWhoosh: 2100, // zoom-out starts
   outroRiser: 2020,
-  ctaHit: 2250, // CTA appears: sustained chord + bell
-  ctaPill: 2310,
-  ctaUrl: 2350,
-  ctaFooter: 2390,
+  ctaHit: 2268, // beat 63 // CTA appears: sustained chord + bell
+  ctaPill: 2328,
+  ctaUrl: 2368,
+  ctaFooter: 2408,
   end: 2700,
 };
 

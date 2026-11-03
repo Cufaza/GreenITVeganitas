@@ -14,7 +14,7 @@ export const Intro = () => {
   const p = spring({ frame: f - T.logoStart, fps, config: { damping: 14, stiffness: 70, mass: 1.1 } });
   const blur = Math.max(0, 24 * (1 - Math.min(1, p)));
   const scale = 0.9 + 0.1 * p;
-  const exit = prog(f, T.introFadeStart, 196, GLIDE);
+  const exit = prog(f, T.introFadeStart, 200, GLIDE);
   const sweep = prog(f, T.logoSweep, T.logoSweep + 46, GLIDE);
   const chars = Math.floor(Math.max(0, f - T.lemaStart) * (LEMA_LEN / (T.lemaEnd - T.lemaStart)));
   const flash = Math.max(0, 1 - Math.abs(f - T.logoHit) / 10); // impact accent
