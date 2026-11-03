@@ -5,7 +5,7 @@ import { Stagger } from '../core/Stagger.jsx';
 import { hoverAmount } from '../core/cursorModel.js';
 import { T } from '../timeline.js';
 import { inter, geist, C } from '../theme.js';
-import { COMPANY } from '../data.js';
+import { COMPANY, COMPANY_INITIALS, COMPANY_SUB } from '../data.js';
 import { MOCK, SIDEBAR_W, TOPBAR_H, NAV } from './layout.js';
 import { Icon, prog, lerp } from './ui.jsx';
 
@@ -59,10 +59,10 @@ export const AppShell = ({ title, children }) => {
             ))}
           </div>
           <div style={{ position: 'absolute', left: 24, bottom: 28, right: 24, display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(135deg,#2E7D32,#7BD389)', display: 'grid', placeItems: 'center', fontFamily: geist, fontWeight: 700, fontSize: 20, color: '#06130a' }}>ED</div>
+            <div style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(135deg,#2E7D32,#7BD389)', display: 'grid', placeItems: 'center', fontFamily: geist, fontWeight: 700, fontSize: 20, color: '#06130a' }}>{COMPANY_INITIALS}</div>
             <div style={{ lineHeight: 1.25 }}>
               <div style={{ fontSize: 19, fontWeight: 600, color: C.text }}>{COMPANY}</div>
-              <div style={{ fontSize: 16, color: C.faint }}>Empresa de demo</div>
+              <div style={{ fontSize: 16, color: C.faint }}>{COMPANY_SUB}</div>
             </div>
           </div>
         </Stagger>

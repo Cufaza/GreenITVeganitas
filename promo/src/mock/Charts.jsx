@@ -2,7 +2,7 @@ import React from 'react';
 import { spring, useVideoConfig } from 'remotion';
 import { useGF } from '../core/frame.jsx';
 import { inter, geist, C } from '../theme.js';
-import { fmt } from '../data.js';
+import { fmt, CHART_MAX } from '../data.js';
 import { tnum } from './ui.jsx';
 
 const IT = 'linear-gradient(180deg,#8FE09B,#2E9B4A)';
@@ -27,18 +27,18 @@ export const LEGEND_STACK = [
  * Stacked bars (IT + refrigeración). `values` = [{label, it, ref}] already tweened;
  * `grow` = per-bar 0..1 entrance. Heights are px inside a fixed plot area.
  */
-export const StackedBars = ({ values, grow, plotH = 380, barW = 84, max = 600, width, labelSize = 18 }) => {
-  const ticks = [0, 150, 300, 450, 600];
+export const StackedBars = ({ values, grow, plotH = 380, barW = 84, max = CHART_MAX, width, labelSize = 18 }) => {
+  const ticks = [0, 0.25, 0.5, 0.75, 1].map((q) => q * max);
   return (
     <div style={{ position: 'relative', height: plotH + 64, width }}>
       <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: plotH }}>
         {ticks.map((t) => (
           <div key={t} style={{ position: 'absolute', left: 0, right: 0, bottom: (t / max) * plotH, borderTop: '1px dashed rgba(255,255,255,0.08)' }}>
-            <span style={{ position: 'absolute', left: 0, top: -24, fontFamily: inter, fontSize: 16, color: C.faint, ...tnum }}>{t}</span>
+            <span style={{ position: 'absolute', left: 0, top: -24, fontFamily: inter, fontSize: 16, color: C.faint, ...tnum }}>{fmt(t)}</span>
           </div>
         ))}
       </div>
-      <div style={{ position: 'absolute', left: 52, right: 0, top: 0, height: plotH, display: 'flex', justifyContent: 'space-around', alignItems: 'flex-end' }}>
+      <div style={{ position: 'absolute', left: 64, right: 0, top: 0, height: plotH, display: 'flex', justifyContent: 'space-around', alignItems: 'flex-end' }}>
         {values.map((v, i) => {
           const g = grow[i];
           const hIt = (v.it / max) * plotH * g;
@@ -54,7 +54,7 @@ export const StackedBars = ({ values, grow, plotH = 380, barW = 84, max = 600, w
           );
         })}
       </div>
-      <div style={{ position: 'absolute', left: 52, right: 0, top: plotH + 12, display: 'flex', justifyContent: 'space-around' }}>
+      <div style={{ position: 'absolute', left: 64, right: 0, top: plotH + 12, display: 'flex', justifyContent: 'space-around' }}>
         {values.map((v) => (
           <div key={v.label} style={{ width: barW + 20, textAlign: 'center', fontFamily: inter, fontSize: labelSize, color: C.muted }}>{v.label}</div>
         ))}

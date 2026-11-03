@@ -32,7 +32,15 @@ export const CATS = Object.keys(LABELS).map((k) => ({
   plan: { it: combo.despues.porCategoria[k].kWhMesIT, ref: combo.despues.porCategoria[k].kWhRefrig },
 }));
 
-export const COMPANY = 'Estudio Contable Delta';
+// Short sidebar name (full: DEMO_EMPRESA = 'UNLaM, DIIT (caso simulado)'), initials and subtitle
+export const COMPANY = 'UNLaM · DIIT';
+export const COMPANY_INITIALS = 'DI';
+export const COMPANY_SUB = 'Caso simulado';
+
+// Chart axis: round the largest bar up to a clean step so any demo data fits
+const topBar = Math.max(...CATS.map((c) => c.base.it + c.base.ref));
+const step = 10 ** Math.floor(Math.log10(topBar));
+export const CHART_MAX = Math.ceil(topBar / step) * step;
 
 // Watti: question + the real deterministic answer.
 export const CHIPS = ['consumo-total', 'medida-top', 'plan-completo'].map((id) => PREGUNTAS.find((p) => p.id === id));

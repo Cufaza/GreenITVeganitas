@@ -9,7 +9,10 @@ import { KPI_RECT, CHART_A, CHART_B } from './layout.js';
 import { prog, tnum } from './ui.jsx';
 import { StackedBars, Legend, LEGEND_STACK, useGrow } from './Charts.jsx';
 
-const KpiCard = ({ i, label, value, unit, sub, accent }) => {
+// font size that keeps the FINAL value + unit inside the card (stable while counting up)
+const fitSize = (finalValue, unit) => Math.min(54, Math.floor((302 - 48 - 22 * 0.52 * unit.length - 14) / (0.6 * finalValue.length)));
+
+const KpiCard = ({ i, label, value, unit, sub, accent, final }) => {
   const r = KPI_RECT(i);
   return (
     <Stagger start={T.kpiStart} i={i} delay={14} y={46} scale={0.9} style={{ position: 'absolute', left: r.x, top: r.y, width: r.w, height: r.h }}>
@@ -22,8 +25,8 @@ const KpiCard = ({ i, label, value, unit, sub, accent }) => {
       >
         <div style={{ fontSize: 20, fontWeight: 500, color: accent ? C.green : C.muted }}>{label}</div>
         <div style={{ marginTop: 12, display: 'flex', alignItems: 'baseline', gap: 10, ...tnum }}>
-          <span style={{ fontFamily: geist, fontWeight: 600, fontSize: 54, color: C.text, letterSpacing: -1 }}>{value}</span>
-          <span style={{ fontSize: 22, color: C.muted }}>{unit}</span>
+          <span style={{ fontFamily: geist, fontWeight: 600, fontSize: fitSize(final, unit), color: C.text, letterSpacing: -1, whiteSpace: 'nowrap' }}>{value}</span>
+          <span style={{ fontSize: 22, color: C.muted, whiteSpace: 'nowrap' }}>{unit}</span>
         </div>
         <div style={{ marginTop: 10, fontSize: 18, color: C.faint, ...tnum }}>{sub}</div>
       </Glass>
@@ -40,13 +43,13 @@ export const PanelMock = () => {
   const labeled = CATS.map((c, i) => ({ label: c.label, ...values[i] }));
 
   const barH = 440;
-  const maxKg = 360;
+  const maxKg = BASE.co2Mes;
   return (
     <div style={{ position: 'absolute', inset: 0 }}>
-      <KpiCard i={0} label="Consumo mensual" value={fmt(Math.round(BASE.kWhMes * cnt(0)))} unit="kWh" sub={`${fmt(Math.round(BASE.kWhAnio))} kWh por año`} />
-      <KpiCard i={1} label="Costo mensual" value={fmtARS(Math.round(BASE.costoMes * cnt(1)))} unit="" sub={`${fmtARS(BASE.costoAnio)} por año`} />
-      <KpiCard i={2} label="Huella de carbono" value={fmt(Math.round(BASE.co2Mes * cnt(2)))} unit="kg CO₂" sub={`${fmt(BASE.co2Anio / 1000, 1)} t CO₂ por año`} />
-      <KpiCard i={3} accent label="Ahorro posible con el plan" value={`${fmt(Math.round(SAVING.pct * cnt(3)))}%`} unit="" sub={`${fmt(Math.round(SAVING.kWhMes))} kWh menos por mes`} />
+      <KpiCard i={0} final={fmt(Math.round(BASE.kWhMes))} label="Consumo mensual" value={fmt(Math.round(BASE.kWhMes * cnt(0)))} unit="kWh" sub={`${fmt(Math.round(BASE.kWhAnio))} kWh por año`} />
+      <KpiCard i={1} final={fmtARS(BASE.costoMes)} label="Costo mensual" value={fmtARS(Math.round(BASE.costoMes * cnt(1)))} unit="" sub={`${fmtARS(BASE.costoAnio)} por año`} />
+      <KpiCard i={2} final={fmt(Math.round(BASE.co2Mes))} label="Huella de carbono" value={fmt(Math.round(BASE.co2Mes * cnt(2)))} unit="kg CO₂" sub={`${fmt(BASE.co2Anio / 1000, 1)} t CO₂ por año`} />
+      <KpiCard i={3} accent final={`${fmt(Math.round(SAVING.pct))}%`} label="Ahorro posible con el plan" value={`${fmt(Math.round(SAVING.pct * cnt(3)))}%`} unit="" sub={`${fmt(Math.round(SAVING.kWhMes))} kWh menos por mes`} />
 
       <Stagger start={T.kpiStart + 60} y={50} scale={0.96} style={{ position: 'absolute', left: CHART_A.x, top: CHART_A.y, width: CHART_A.w, height: CHART_A.h }}>
         <Glass style={{ width: CHART_A.w, height: CHART_A.h, boxSizing: 'border-box', padding: '28px 30px', fontFamily: inter }}>
