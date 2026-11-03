@@ -179,7 +179,7 @@ export default function Hero({ cta }) {
             )}
           </div>
           <CtaError cta={cta} />
-          <p className="hero-note">Sin registro: la demo carga una empresa ficticia con datos de ejemplo.</p>
+          {!cta.user && <p className="hero-note">Sin registro: la demo carga una empresa ficticia con datos de ejemplo.</p>}
         </div>
       </div>
       <div className="globe-wrap" aria-hidden="true">
