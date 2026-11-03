@@ -77,7 +77,7 @@ export default function Transparency() {
             <tbody>
               {ROWS.map((r) => (
                 <tr key={r.name}>
-                  <th scope="row" style={{ textAlign: 'left', fontWeight: 500, padding: '13px 20px', color: '#e5e7eb', borderTop: '1px solid var(--line-soft)' }}>{r.name}</th>
+                  <th scope="row">{r.name}</th>
                   <td>{r.value}</td>
                   <td>
                     {r.src}

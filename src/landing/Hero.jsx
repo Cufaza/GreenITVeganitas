@@ -5,11 +5,11 @@ import { CtaError, PrimaryCta, SecondaryCta } from './ui.jsx';
 // [lat, lon] of Argentine cities used as markers
 const MARKERS = [
   [-34.6, -58.4], [-31.4, -64.2], [-32.9, -68.8], [-32.95, -60.65], [-26.8, -65.2], [-38.95, -68.06], [-45.86, -67.5], [-24.8, -65.4],
-].map((location) => ({ location, size: 0.05 }));
+].map((location) => ({ location, size: 0.022 }));
 
 // phi/theta that center the globe on lat/lon (cobe convention); the globe is half hidden, so we aim south of Argentina
 const START_PHI = Math.PI - ((-64 * Math.PI) / 180 - Math.PI / 2);
-const THETA = -0.85;
+const THETA = -1.1;
 
 function Globe() {
   const wrap = useRef(null);
@@ -38,8 +38,8 @@ function Globe() {
         dark: 1,
         diffuse: 1.1,
         mapSamples: 16000,
-        mapBrightness: 5,
-        baseColor: [0.06, 0.13, 0.09],
+        mapBrightness: 7,
+        baseColor: [0.16, 0.36, 0.22],
         markerColor: [0.48, 0.83, 0.54],
         glowColor: [0.05, 0.16, 0.1],
         markers: MARKERS,

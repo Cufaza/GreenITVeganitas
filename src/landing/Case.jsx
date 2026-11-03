@@ -177,7 +177,7 @@ function DataTable({ tab }) {
         <tbody>
           {rows.map((r, n) => (
             <tr key={r[0]} className={n === rows.length - 1 && tab !== 'plan' ? 'total' : ''}>
-              {r.map((c, i) => (i ? <td key={i} className="num">{c}</td> : <th key={i} scope="row" style={{ textAlign: 'left', fontWeight: 500, padding: '13px 20px', color: '#e5e7eb', borderTop: '1px solid var(--line-soft)' }}>{c}</th>))}
+              {r.map((c, i) => (i ? <td key={i} className="num">{c}</td> : <th key={i} scope="row">{c}</th>))}
             </tr>
           ))}
         </tbody>
