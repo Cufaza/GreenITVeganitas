@@ -48,3 +48,30 @@ summary { list-style: none; }
   body { background: #fff; }
   .print-break-avoid { break-inside: avoid; }
 }
+
+/* Watti assistant (floating button, panel, avatar micro-animations, typing dots) */
+@keyframes watti-fab-in {
+  0%   { opacity: 0; transform: translateY(60px) scale(0.2) rotate(-20deg); }
+  60%  { opacity: 1; transform: translateY(-6px) scale(1.08) rotate(4deg); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes watti-fab-back { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+@keyframes watti-pop-in   { from { opacity: 0; transform: translateY(14px) scale(0.97); } to { opacity: 1; transform: none; } }
+@keyframes watti-pop-out  { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(14px) scale(0.97); } }
+@keyframes watti-msg-in   { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes watti-float    { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-3px) rotate(2deg); } }
+@keyframes watti-wobble   { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
+@keyframes watti-hop      { 0%, 100% { transform: translateY(0) scale(1, 1); } 40% { transform: translateY(-6px) scale(0.94, 1.08); } 70% { transform: translateY(0) scale(1.06, 0.94); } }
+@keyframes watti-dot      { 0%, 100% { opacity: 0.3; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-3px); } }
+.watti-fab-in   { animation: watti-fab-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.watti-fab-back { animation: watti-fab-back 0.2s ease-out both; }
+.watti-in  { animation: watti-pop-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.watti-out { animation: watti-pop-out 0.18s ease-in forwards; pointer-events: none; }
+.watti-msg { animation: watti-msg-in 0.25s ease-out both; }
+.watti-float  { animation: watti-float 3.4s ease-in-out infinite; }
+.watti-think  { animation: watti-wobble 1.2s ease-in-out infinite; }
+.watti-happy  { animation: watti-hop 0.7s cubic-bezier(0.3, 1.6, 0.6, 1) infinite; }
+.watti-dot    { animation: watti-dot 1s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .watti-fab-in, .watti-fab-back, .watti-in, .watti-out, .watti-msg, .watti-float, .watti-think, .watti-happy, .watti-dot { animation: none !important; }
+}

@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { useData } from '../context/DataContext.jsx';
 import Logo from './Logo.jsx';
 import Loader from './ui/Loader.jsx';
+import WattiWidget from './watti/WattiWidget.jsx';
 import { Button, cn, useModalAnimation } from './ui/UIComponents.jsx';
 
 const links = [
@@ -111,6 +112,8 @@ export default function Layout() {
           {ready ? <Outlet /> : <div className="flex items-center justify-center py-24"><Loader size="lg" text="Cargando datos…" /></div>}
         </div>
       </main>
+
+      {ready && <WattiWidget />}
     </div>
   );
 }
