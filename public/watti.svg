@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Watti, el asistente de GreenIT Calc: una hoja verde sonriente con un rayo naranja">
+  <defs>
+    <linearGradient id="hoja" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7BCB7F"/>
+      <stop offset="1" stop-color="#4CAF50"/>
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="256" fill="#0B1F3A"/>
+  <circle cx="256" cy="256" r="236" fill="#12305A"/>
+  <path d="M256 84 C392 112 428 262 340 374 C312 408 280 424 256 434 C232 424 200 408 172 374 C84 262 120 112 256 84 Z" fill="url(#hoja)"/>
+  <path d="M256 434 L256 470" stroke="#2E7D32" stroke-width="18" stroke-linecap="round"/>
+  <path d="M256 150 L256 232" stroke="#2E7D32" stroke-width="8" stroke-linecap="round" opacity="0.55"/>
+  <circle cx="212" cy="262" r="26" fill="#F4F7F2"/>
+  <circle cx="300" cy="262" r="26" fill="#F4F7F2"/>
+  <circle cx="218" cy="266" r="13" fill="#0B1F3A"/>
+  <circle cx="306" cy="266" r="13" fill="#0B1F3A"/>
+  <circle cx="223" cy="260" r="4.5" fill="#F4F7F2"/>
+  <circle cx="311" cy="260" r="4.5" fill="#F4F7F2"/>
+  <path d="M222 316 Q256 350 290 316" fill="none" stroke="#0B1F3A" stroke-width="9" stroke-linecap="round"/>
+  <ellipse cx="186" cy="318" rx="16" ry="10" fill="#F39C12" opacity="0.45"/>
+  <ellipse cx="326" cy="318" rx="16" ry="10" fill="#F39C12" opacity="0.45"/>
+  <path d="M388 70 L336 168 L372 168 L350 246 L426 140 L388 140 L416 70 Z" fill="#F39C12" stroke="#12305A" stroke-width="8" stroke-linejoin="round"/>
+</svg>
