@@ -53,3 +53,8 @@ marca `#2E7D32` en `--brand` (`src/styles.css`) y `BRAND` (`src/components/dashb
 **Reglas fijas:** tokens semánticos siempre (nada de `bg-white` / `text-gray-*` / hex fuera de las excepciones);
 un solo set de íconos (lucide); modales con la estructura de 4.1; estados loading / empty / error en toda lista;
 reglas de oro (15). Una vista se da por terminada solo con la checklist **R.6** completa.
+
+## Landing pública (fuera del kit)
+
+`src/landing/` queda **intencionalmente fuera del Sumar UI Kit** por decisión del usuario (2026-11-03): imita la landing del estudio (sumar-web) con paleta oscura de GreenIT, `motion`, `lenis` y `cobe`. La auditoría R.4 no aplica ahí. El CSS vive en `src/landing/landing.css` bajo `.landing` y la ruta se carga con `React.lazy`, así que nada se filtra a la app. Los números se calculan en runtime desde `demoData()`.
+El asistente **Watti** (`src/components/watti/`) sí vive dentro de la app y sigue el kit. Excepción R.4 nueva: `shadow-lg` en el botón flotante de Watti.
