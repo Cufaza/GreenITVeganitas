@@ -82,7 +82,7 @@ export const WattiMock = () => {
         <div
           style={{
             position: 'absolute', left: P.x, top: P.y, width: P.w, height: P.h,
-            transformOrigin: '100% 100%', transform: `scale(${lerp(0.5, 1, open)})`, opacity: clamp01(open * 1.6),
+            transformOrigin: `${B.x + B.w / 2 - P.x}px ${B.y + B.h / 2 - P.y}px`, transform: `scale(${lerp(0.5, 1, open)})`, opacity: clamp01(open * 1.6),
           }}
         >
           <Glass radius={26} glow blur={16} style={{ width: P.w, height: P.h, overflow: 'hidden', background: 'rgb(8,13,12)', fontFamily: inter }}>

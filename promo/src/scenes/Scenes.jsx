@@ -4,7 +4,7 @@ import { useGF } from '../core/frame.jsx';
 import { Camera, GLIDE } from '../core/Camera.jsx';
 import { Stagger } from '../core/Stagger.jsx';
 import { AppWorld } from './AppWorld.jsx';
-import { Lema, LEMA_LEN } from './Lema.jsx';
+import { Lema, OUTRO_LEMA, lemaLen } from './Lema.jsx';
 import { REVEAL_KEYS, FEATURE_KEYS, OUTRO_KEYS } from './cameraKeys.js';
 import { prog, clamp01 } from '../mock/ui.jsx';
 import { T, SCENES } from '../timeline.js';
@@ -59,13 +59,13 @@ export const Outro = () => {
           { f: T.end, s: 1.0, ease: GLIDE },
         ]}
       >
-        <div style={{ position: 'absolute', left: 0, width: 1600, top: 96, display: 'flex', justifyContent: 'center' }}>
+        <div style={{ position: 'absolute', left: 0, width: 1600, top: 70, display: 'flex', justifyContent: 'center' }}>
           <Stagger start={T.ctaHit} y={30} scale={0.9}>
-            <Img src={staticFile('logo-greenit-calc-light.svg')} style={{ width: 400, height: 100, display: 'block' }} />
+            <Img src={staticFile('favicon.svg')} style={{ width: 150, height: 150, display: 'block', filter: 'drop-shadow(0 0 40px rgba(123,211,137,0.35))' }} />
           </Stagger>
         </div>
         <div style={{ position: 'absolute', left: 0, width: 1600, top: 330, display: 'flex', justifyContent: 'center', opacity: prog(f, T.ctaHit - 2, T.ctaHit + 6) }}>
-          <Lema chars={Math.min(LEMA_LEN, chars * 2)} size={76} f={f} />
+          <Lema chars={Math.min(lemaLen(OUTRO_LEMA), chars * 2)} size={76} f={f} />
         </div>
         <div style={{ position: 'absolute', left: 0, width: 1600, top: 520, display: 'flex', justifyContent: 'center' }}>
           <Stagger start={T.ctaPill} y={34} scale={0.85} config={{ damping: 10, stiffness: 130, mass: 0.7 }}>

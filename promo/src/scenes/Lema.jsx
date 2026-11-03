@@ -1,9 +1,9 @@
 import React from 'react';
 import { geist, playfair, C } from '../theme.js';
 
-const LEMA_A = 'Medí tu consumo, reducí tu ';
-const LEMA_B = 'huella.';
-export const LEMA_LEN = LEMA_A.length + LEMA_B.length;
+export const OUTRO_LEMA = { a: 'Medí tu consumo, reducí tu ', b: 'huella.' };
+export const INTRO_LEMA = { a: 'Eficiencia energética para tu ', b: 'infraestructura IT.' };
+export const lemaLen = (l) => l.a.length + l.b.length;
 
 const Caret = ({ size, f }) => (
   <span style={{ position: 'relative', display: 'inline-block', width: 0 }}>
@@ -12,10 +12,11 @@ const Caret = ({ size, f }) => (
 );
 
 /** Typewriter lema. The untyped rest is rendered invisible so the line never re-centres while typing. */
-export const Lema = ({ chars, size = 64, f = 0 }) => {
+export const Lema = ({ lema = OUTRO_LEMA, chars, size = 64, f = 0 }) => {
+  const LEMA_A = lema.a, LEMA_B = lema.b;
   const na = Math.min(chars, LEMA_A.length);
   const nb = Math.max(0, chars - LEMA_A.length);
-  const typing = chars < LEMA_LEN;
+  const typing = chars < LEMA_A.length + LEMA_B.length;
   const hid = { visibility: 'hidden' };
   return (
     <div style={{ fontFamily: geist, fontWeight: 500, fontSize: size, color: C.text, letterSpacing: -1, whiteSpace: 'pre', textAlign: 'center' }}>

@@ -3,7 +3,7 @@ import { Img, staticFile, spring, useVideoConfig } from 'remotion';
 import { useGF } from '../core/frame.jsx';
 import { Camera, GLIDE } from '../core/Camera.jsx';
 import { T } from '../timeline.js';
-import { Lema, LEMA_LEN } from './Lema.jsx';
+import { Lema, INTRO_LEMA, lemaLen } from './Lema.jsx';
 import { prog, clamp01 } from '../mock/ui.jsx';
 
 const LOGO_W = 920;
@@ -16,7 +16,7 @@ export const Intro = () => {
   const scale = 0.9 + 0.1 * p;
   const exit = prog(f, T.introFadeStart, 200, GLIDE);
   const sweep = prog(f, T.logoSweep, T.logoSweep + 46, GLIDE);
-  const chars = Math.floor(Math.max(0, f - T.lemaStart) * (LEMA_LEN / (T.lemaEnd - T.lemaStart)));
+  const chars = Math.floor(Math.max(0, f - T.lemaStart) * (lemaLen(INTRO_LEMA) / (T.lemaEnd - T.lemaStart)));
   const flash = Math.max(0, 1 - Math.abs(f - T.logoHit) / 10); // impact accent
 
   return (
@@ -54,7 +54,7 @@ export const Intro = () => {
         </div>
       </div>
       <div style={{ position: 'absolute', left: 0, width: 1600, top: 640, display: 'flex', justifyContent: 'center', opacity: prog(f, T.lemaStart - 4, T.lemaStart + 4), transform: `translateY(${-10 * exit}px)` }}>
-        <Lema chars={chars} f={f} />
+        <Lema lema={INTRO_LEMA} chars={chars} size={54} f={f} />
       </div>
     </Camera>
   );

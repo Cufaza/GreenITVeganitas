@@ -20,6 +20,7 @@ export const AppWorld = () => {
         </div>
       )}
       {f >= T.pageSwitch - 2 && <PlanMock />}
+      {f >= T.wattiClick && <div style={{ position: 'absolute', inset: 0, background: 'rgba(3,6,5,0.72)', opacity: prog(f, T.wattiClick, T.wattiClick + 14) }} />}
       <WattiMock />
       <Cursor />
     </AppShell>

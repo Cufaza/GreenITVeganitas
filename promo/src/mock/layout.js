@@ -21,8 +21,8 @@ export const CHART_B = { x: 1096, y: 302, w: 468, h: 658 };
 
 // Watti
 export const WATTI_BTN = { x: 1500, y: 900, w: 76, h: 76 };
-export const WATTI_PANEL = { x: 1036, y: 96, w: 540, h: 780 };
-export const CHIP_RECT = (i) => ({ x: 1060, y: 680 + i * 62, w: 492, h: 52 });
+export const WATTI_PANEL = { x: 540, y: 96, w: 540, h: 780 };
+export const CHIP_RECT = (i) => ({ x: WATTI_PANEL.x + 24, y: 680 + i * 62, w: 492, h: 52 });
 
 const center = (r) => [r.x + r.w / 2, r.y + r.h / 2];
 

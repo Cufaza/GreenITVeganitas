@@ -20,7 +20,7 @@ export const REVEAL_KEYS = [
 const PLAN_A = zoomTo({ x: -20, y: 36, w: 1040, h: 820 }, { rx: 4, ry: -6 });
 const PLAN_A2 = zoomTo({ x: -20, y: 36, w: 1040, h: 820 }, { rx: 3, ry: -5 }, 0.99);
 const PLAN_B = zoomTo({ x: 760, y: 60, w: 840, h: 900 }, { rx: 3, ry: -5 });
-const WATTI_C = zoomTo({ x: 1000, y: 90, w: 600, h: 900 }, { rx: 3, ry: -6 });
+const WATTI_C = zoomTo({ x: 0, y: 70, w: 1600, h: 900 }, { rx: 2, ry: -3 }, 1.02);
 export const WATTI_FOCUS = WATTI_C;
 
 export const FEATURE_KEYS = [

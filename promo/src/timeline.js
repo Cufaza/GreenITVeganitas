@@ -80,7 +80,7 @@ export const CURSOR = [
   { f: 1350, to: 'apply', dur: 56, click: true, lag: 12 },
   { f: 1590, to: 'watti-btn', dur: 80, click: true, lag: 10 },
   { f: 1698, to: 'chip-medida', dur: 50, click: true, lag: 12 },
-  { f: 1745, xy: [990, 820], dur: 36 },
+  { f: 1745, xy: [1330, 640], dur: 36 },
 ];
 export const CURSOR_FADE_IN = [905, 925];
 export const CURSOR_FADE_OUT = [2040, 2090];
