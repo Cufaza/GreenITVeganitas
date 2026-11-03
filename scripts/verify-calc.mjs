@@ -1,6 +1,7 @@
 // Verifica el motor de cálculo contra cuentas hechas a mano. Uso: npm run verify
 import { calcTotales, escenarioCombinado, evaluarRecomendaciones } from '../src/lib/calc.js';
 import { demoData } from '../src/data/demo.js';
+import { PREGUNTAS, interpretar, responder } from '../src/lib/watti.js';
 
 let fallas = 0;
 const check = (nombre, obtenido, esperado, tol = 0.05) => {
@@ -51,4 +52,22 @@ if (fallas) {
   console.error(`\n${fallas} verificaciones fallaron`);
   process.exit(1);
 }
-console.log('\nTodas las verificaciones pasaron');
+console.log('\nTodas las verificaciones pasaron');// Watti: las respuestas salen de los mismos cálculos; `datos` expone los números crudos.
+const checkIgual = (nombre, obtenido, esperado) => {
+  const ok = obtenido === esperado;
+  if (!ok) fallas++;
+  console.log(`${ok ? 'OK  ' : 'FALLA'} ${nombre}: obtenido ${obtenido} | esperado ${esperado}`);
+};
+const w = (id, its = items) => responder(id, { items: its, settings });
+check('Watti P1 consumo kWh/mes', w('consumo-total').datos.kWhMes, 1180, 0.5);
+check('Watti P1 costo ARS/mes', w('consumo-total').datos.costoMes, 252717, 1);
+check('Watti P6 kWh/mes con el plan', w('plan-completo').datos.kWhDespues, 602, 0.5);
+check('Watti P6 ahorro %', w('plan-completo').datos.pct, 49, 0.5);
+check('Watti P7 ahorro de la medida top (kWh/mes)', w('medida-top').datos.top.kWhMes, 333, 0.5);
+checkIgual('Watti P7 medida top', w('medida-top').datos.top.id, 'apagar-fuera-horario');
+check('Watti P3 t CO2/año', w('costo-anual').datos.co2AnioT, 4.01, 0.005);
+checkIgual('Watti sin equipos → acción', w('consumo-total', []).accion.to, '/inventario');
+checkIgual('Watti interpreta cada pregunta sugerida', PREGUNTAS.every((q) => interpretar(q.texto) === q.id), true);
+checkIgual('Watti texto sin sentido → null', interpretar('hola qué tal'), null);
+
+
